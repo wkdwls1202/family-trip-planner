@@ -31,9 +31,8 @@
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             padding-bottom: 20px;
-            border-bottom: 2px solid #e0e6ed;
         }
 
         header h1 {
@@ -42,9 +41,32 @@
             margin-bottom: 10px;
         }
 
-        header p {
-            color: #7f8c8d;
+        /* 메인 탭 네비게이션 */
+        .tabs-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e6ed;
+            padding-bottom: 10px;
+        }
+
+        .main-tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: #f1f2f6;
+            border: none;
+            border-radius: 8px;
             font-size: 16px;
+            font-weight: bold;
+            color: #7f8c8d;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .main-tab-btn.active {
+            background: #3498db;
+            color: white;
+            box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3);
         }
 
         .trip-info {
@@ -56,15 +78,16 @@
             margin-bottom: 25px;
         }
 
-        .trip-info div { font-size: 15px; }
+        .trip-info div { font-size: 14px; }
         .trip-info strong { color: #2980b9; }
 
+        /* 입력 폼 영역 */
         .form-section {
             background: #fafafa;
             padding: 20px;
             border-radius: 8px;
             border: 1px solid #ddd;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         
         .form-section h2 {
@@ -116,8 +139,40 @@
         .submit-btn:hover { background-color: #2980b9; }
         .submit-btn:disabled { background-color: #95a5a6; cursor: not-allowed; }
 
+        /* 날짜별 탭 (서브 탭) */
+        .date-tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            white-space: nowrap;
+        }
+
+        .date-tabs::-webkit-scrollbar { height: 6px; }
+        .date-tabs::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+
+        .date-btn {
+            padding: 8px 16px;
+            background: #fff;
+            border: 1px solid #bdc3c7;
+            border-radius: 20px;
+            color: #34495e;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .date-btn.active {
+            background: #2c3e50;
+            color: white;
+            border-color: #2c3e50;
+        }
+
+        /* 일정 목록 영역 */
         .schedule-list-section h2 {
-            font-size: 20px;
+            font-size: 18px;
             color: #2c3e50;
             margin-bottom: 15px;
             display: flex;
@@ -126,9 +181,12 @@
         }
 
         .total-cost {
-            font-size: 16px;
+            font-size: 14px;
             color: #e74c3c;
             font-weight: bold;
+            background: #fadbd8;
+            padding: 4px 10px;
+            border-radius: 12px;
         }
 
         .schedule-card {
@@ -140,14 +198,9 @@
             padding: 15px;
             margin-bottom: 15px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            transition: transform 0.2s;
+            position: relative;
         }
         
-        .schedule-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-        }
-
         .cat-transport { border-left-color: #f39c12; }
         .cat-accomodation { border-left-color: #9b59b6; }
         .cat-food { border-left-color: #e74c3c; }
@@ -155,7 +208,7 @@
         .cat-etc { border-left-color: #34495e; }
 
         .time-box {
-            min-width: 80px;
+            min-width: 60px;
             border-right: 1px dashed #ccc;
             padding-right: 15px;
             margin-right: 15px;
@@ -165,7 +218,6 @@
             text-align: center;
         }
 
-        .time-box .date { font-size: 12px; color: #7f8c8d; font-weight: bold; margin-bottom: 4px; }
         .time-box .time { font-size: 16px; color: #2c3e50; font-weight: bold; }
 
         .content-box { flex: 1; }
@@ -174,7 +226,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .category-badge {
@@ -186,11 +238,25 @@
             margin-bottom: 5px;
         }
 
-        .title { font-size: 16px; font-weight: bold; color: #2c3e50; }
+        .title { font-size: 16px; font-weight: bold; color: #2c3e50; padding-right: 25px; }
         .location { font-size: 13px; color: #7f8c8d; margin-top: 4px; }
         .cost { font-size: 14px; color: #e74c3c; font-weight: bold; text-align: right; }
         .added-by { font-size: 11px; color: #95a5a6; text-align: right; margin-top: 4px; }
         
+        /* 삭제 버튼 */
+        .delete-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        .delete-btn:hover { opacity: 1; color: red; }
+
         .empty-state {
             text-align: center;
             padding: 40px 20px;
@@ -199,98 +265,166 @@
             border: 1px dashed #ccc;
             border-radius: 8px;
         }
+
+        /* 탭 숨김 처리용 클래스 */
+        .hidden { display: none !important; }
+
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>✈️ 가족 여행 실시간 플래너</h1>
-        <p>호주 브리즈번 & 골드코스트 (2026.10.17 ~ 10.24)</p>
+        <h1>호주 브리즈번 & 골드코스트</h1>
     </header>
 
+    <!-- 메인 탭 전환 -->
+    <div class="tabs-container">
+        <button class="main-tab-btn active" data-target="plannerTab" onclick="switchTab('plannerTab')">📅 여행 플래너</button>
+        <button class="main-tab-btn" data-target="flightTab" onclick="switchTab('flightTab')">✈️ 비행 정보</button>
+    </div>
+
     <div class="trip-info">
-        <div><strong>참석 인원:</strong> 6명 (본인, 어머니, 아내, 딸, 남동생, 사촌)</div>
-        <div><strong>진행 상태:</strong> 실시간 동기화 중 🟢</div>
+        <div><strong>참석:</strong> 5명 (권장진, 어머니, 한나리, 딸, 권태진)</div>
+        <div><strong>일정:</strong> 10.17 ~ 10.24</div>
     </div>
 
-    <!-- 일정 추가 폼 영역 -->
-    <div class="form-section">
-        <h2>새로운 일정 추가하기</h2>
-        <form id="scheduleForm">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="date">날짜</label>
-                    <input type="date" id="date" value="2026-10-17" required>
+    <!-- 1. 여행 플래너 탭 -->
+    <div id="plannerTab">
+        <div class="form-section">
+            <h2>새로운 일정 추가</h2>
+            <form id="scheduleForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date">날짜</label>
+                        <select id="date">
+                            <option value="2026-10-17">10/17 (토)</option>
+                            <option value="2026-10-18">10/18 (일)</option>
+                            <option value="2026-10-19">10/19 (월)</option>
+                            <option value="2026-10-20">10/20 (화)</option>
+                            <option value="2026-10-21">10/21 (수)</option>
+                            <option value="2026-10-22">10/22 (목)</option>
+                            <option value="2026-10-23">10/23 (금)</option>
+                            <option value="2026-10-24">10/24 (토)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">시간</label>
+                        <input type="time" id="time" value="10:00" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">카테고리</label>
+                        <select id="category">
+                            <option value="tour">관광지</option>
+                            <option value="food">식사</option>
+                            <option value="transport">이동수단</option>
+                            <option value="accomodation">숙소</option>
+                            <option value="etc">기타</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="time">시간</label>
-                    <input type="time" id="time" value="10:00" required>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="title">일정 내용</label>
+                        <input type="text" id="title" placeholder="예: 론 파인 코알라 보호구역 관람" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">장소/위치</label>
+                        <input type="text" id="location" placeholder="예: 브리즈번 시내">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="category">카테고리</label>
-                    <select id="category">
-                        <option value="tour">관광지</option>
-                        <option value="food">식사</option>
-                        <option value="transport">이동수단</option>
-                        <option value="accomodation">숙소</option>
-                        <option value="etc">기타</option>
-                    </select>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cost">예상 비용 (원)</label>
+                        <input type="number" id="cost" placeholder="0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="addedBy">작성자</label>
+                        <select id="addedBy">
+                            <!-- 요구사항 반영: 권장진, 한나리, 권태진 -->
+                            <option value="권장진">권장진</option>
+                            <option value="한나리">한나리</option>
+                            <option value="권태진">권태진</option>
+                        </select>
+                    </div>
                 </div>
+                <button type="button" id="submitScheduleBtn" class="submit-btn">일정 등록하기 (실시간 동기화)</button>
+            </form>
+        </div>
+
+        <div class="schedule-list-section">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h2>일정 현황 조회</h2>
+                <span id="totalCost" class="total-cost">총액: 0 원</span>
+            </div>
+
+            <!-- 날짜별 조회 탭 -->
+            <div class="date-tabs" id="dateTabsContainer">
+                <button class="date-btn active" data-date="all" onclick="filterByDate('all')">전체 일정</button>
+                <button class="date-btn" data-date="2026-10-17" onclick="filterByDate('2026-10-17')">10/17</button>
+                <button class="date-btn" data-date="2026-10-18" onclick="filterByDate('2026-10-18')">10/18</button>
+                <button class="date-btn" data-date="2026-10-19" onclick="filterByDate('2026-10-19')">10/19</button>
+                <button class="date-btn" data-date="2026-10-20" onclick="filterByDate('2026-10-20')">10/20</button>
+                <button class="date-btn" data-date="2026-10-21" onclick="filterByDate('2026-10-21')">10/21</button>
+                <button class="date-btn" data-date="2026-10-22" onclick="filterByDate('2026-10-22')">10/22</button>
+                <button class="date-btn" data-date="2026-10-23" onclick="filterByDate('2026-10-23')">10/23</button>
+                <button class="date-btn" data-date="2026-10-24" onclick="filterByDate('2026-10-24')">10/24</button>
             </div>
             
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="title">일정 내용</label>
-                    <input type="text" id="title" placeholder="예: 론 파인 코알라 보호구역 관람" required>
-                </div>
-                <div class="form-group">
-                    <label for="location">장소/위치</label>
-                    <input type="text" id="location" placeholder="예: 브리즈번 시내">
-                </div>
+            <div id="scheduleContainer">
+                <div class="empty-state">데이터를 불러오는 중입니다...</div>
             </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="cost">예상 비용 (원)</label>
-                    <input type="number" id="cost" placeholder="0" min="0">
-                </div>
-                <div class="form-group">
-                    <label for="addedBy">작성자</label>
-                    <select id="addedBy">
-                        <option value="본인">본인</option>
-                        <option value="어머니">어머니</option>
-                        <option value="아내">아내</option>
-                        <option value="남동생">남동생</option>
-                        <option value="사촌">사촌</option>
-                    </select>
-                </div>
-            </div>
-            
-            <button type="button" id="submitBtn" class="submit-btn">일정 등록하기 (실시간 동기화)</button>
-        </form>
+        </div>
     </div>
 
-    <!-- 등록된 일정 리스트 영역 -->
-    <div class="schedule-list-section">
-        <h2>
-            등록된 일정 현황
-            <span id="totalCost" class="total-cost">예상 총액: 0 원</span>
-        </h2>
-        
-        <div id="scheduleContainer">
-            <div class="empty-state">데이터를 불러오는 중입니다...</div>
+    <!-- 2. 비행 정보 탭 -->
+    <div id="flightTab" class="hidden">
+        <div class="form-section">
+            <h2>항공권 정보 등록</h2>
+            <form id="flightForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="flightType">구분</label>
+                        <select id="flightType">
+                            <option value="출발편">출발편 (출국)</option>
+                            <option value="귀국편">귀국편 (입국)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="flightDate">탑승 날짜</label>
+                        <input type="date" id="flightDate" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="airline">항공사 및 편명</label>
+                        <input type="text" id="airline" placeholder="예: 대한항공 KE123" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="flightRoute">여정</label>
+                        <input type="text" id="flightRoute" placeholder="예: 인천(ICN) -> 브리즈번(BNE)" required>
+                    </div>
+                </div>
+                <button type="button" id="submitFlightBtn" class="submit-btn">비행 정보 저장하기</button>
+            </form>
+        </div>
+
+        <div class="schedule-list-section">
+            <h2>등록된 비행 정보</h2>
+            <div id="flightContainer">
+                <div class="empty-state">등록된 비행 정보가 없습니다.</div>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Firebase 실제 연동 스크립트 -->
 <script type="module">
-  // GitHub Pages(정적 호스팅) 환경을 위해 CDN 방식으로 Firebase 모듈을 불러옵니다.
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-  // 발급받은 Firebase 구성
   const firebaseConfig = {
     apiKey: "AIzaSyB0KfG5lxxHBX5mzSb_7ZAF_tpqATtqe3M",
     authDomain: "family-trip-2026-112f8.firebaseapp.com",
@@ -300,16 +434,13 @@
     appId: "1:660729747494:web:c9cea0b85275d599f7eee7"
   };
 
-  // Firebase 초기화
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // HTML 요소 가져오기
-  const scheduleContainer = document.getElementById('scheduleContainer');
-  const totalCostElement = document.getElementById('totalCost');
-  const submitBtn = document.getElementById('submitBtn');
+  // 전역 데이터 관리
+  let allSchedules = [];
+  let currentFilterDate = 'all';
 
-  // 카테고리별 디자인 설정
   const categoryStyles = {
       'tour': { class: 'cat-tour', bg: '#d5f5e3', color: '#27ae60', icon: '🏞️', text: '관광지' },
       'food': { class: 'cat-food', bg: '#fadbd8', color: '#c0392b', icon: '🍽️', text: '식사' },
@@ -318,30 +449,85 @@
       'etc': { class: 'cat-etc', bg: '#ecf0f1', color: '#34495e', icon: '📌', text: '기타' }
   };
 
-  // 1. 실시간 데이터 불러오기 (Read)
-  const q = query(collection(db, "schedules"), orderBy("date"));
-  onSnapshot(q, (snapshot) => {
+  /* =======================================
+     공통 기능: 탭 전환 및 삭제
+  ======================================= */
+  window.switchTab = function(targetId) {
+      // 탭 버튼 스타일 변경
+      document.querySelectorAll('.main-tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.main-tab-btn[data-target="${targetId}"]`).classList.add('active');
+      
+      // 콘텐츠 영역 전환
+      document.getElementById('plannerTab').classList.add('hidden');
+      document.getElementById('flightTab').classList.add('hidden');
+      document.getElementById(targetId).classList.remove('hidden');
+  };
+
+  window.filterByDate = function(dateStr) {
+      currentFilterDate = dateStr;
+      // 버튼 스타일 변경
+      document.querySelectorAll('.date-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.date-btn[data-date="${dateStr}"]`).classList.add('active');
+      
+      renderSchedules();
+  };
+
+  window.deleteItem = async function(collectionName, id) {
+      if(confirm('정말 이 항목을 삭제하시겠습니까?')) {
+          try {
+              await deleteDoc(doc(db, collectionName, id));
+          } catch (e) {
+              alert('삭제 중 오류가 발생했습니다.');
+          }
+      }
+  };
+
+  /* =======================================
+     여행 플래너 기능 (일정)
+  ======================================= */
+  const qSchedules = query(collection(db, "schedules"), orderBy("date"));
+  
+  onSnapshot(qSchedules, (snapshot) => {
+      allSchedules = [];
+      snapshot.forEach((doc) => {
+          allSchedules.push({ id: doc.id, ...doc.data() });
+      });
+      renderSchedules();
+  });
+
+  function renderSchedules() {
+      const scheduleContainer = document.getElementById('scheduleContainer');
+      const totalCostElement = document.getElementById('totalCost');
+      
       let html = "";
       let totalAmount = 0;
 
-      if (snapshot.empty) {
-          scheduleContainer.innerHTML = '<div class="empty-state">아직 등록된 일정이 없습니다. 첫 일정을 추가해 보세요!</div>';
-          totalCostElement.innerText = "예상 총액: 0 원";
+      // 선택한 날짜로 데이터 필터링
+      const filtered = currentFilterDate === 'all' 
+          ? allSchedules 
+          : allSchedules.filter(s => s.date === currentFilterDate);
+
+      if (filtered.length === 0) {
+          scheduleContainer.innerHTML = '<div class="empty-state">해당 날짜에 등록된 일정이 없습니다.</div>';
+          totalCostElement.innerText = "총액: 0 원";
           return;
       }
 
-      snapshot.forEach((doc) => {
-          const data = doc.data();
+      // 시간순으로 한 번 더 정렬 (색인 오류 회피를 위해 클라이언트에서 정렬)
+      filtered.sort((a, b) => a.time.localeCompare(b.time));
+
+      filtered.forEach((data) => {
           const cost = Number(data.cost) || 0;
           totalAmount += cost;
 
           const style = categoryStyles[data.category] || categoryStyles['etc'];
-          const dateFormatted = data.date.substring(5).replace('-', '/'); // "2026-10-17" -> "10/17"
+          const dateFormatted = data.date.substring(5).replace('-', '/');
 
           html += `
             <div class="schedule-card ${style.class}">
+                <button class="delete-btn" onclick="deleteItem('schedules', '${data.id}')" title="삭제">🗑️</button>
                 <div class="time-box">
-                    <div class="date">${dateFormatted}</div>
+                    <div style="font-size:11px; color:#7f8c8d; margin-bottom:2px;">${dateFormatted}</div>
                     <div class="time">${data.time}</div>
                 </div>
                 <div class="content-box">
@@ -364,22 +550,19 @@
       });
       
       scheduleContainer.innerHTML = html;
-      totalCostElement.innerText = `예상 총액: ${totalAmount.toLocaleString()} 원`;
-  });
+      totalCostElement.innerText = `총액: ${totalAmount.toLocaleString()} 원`;
+  }
 
-  // 2. 새로운 일정 추가하기 (Create)
-  submitBtn.addEventListener('click', async () => {
+  document.getElementById('submitScheduleBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('submitScheduleBtn');
       const dateVal = document.getElementById('date').value;
       const timeVal = document.getElementById('time').value;
       const titleVal = document.getElementById('title').value;
       
-      if (!dateVal || !timeVal || !titleVal) {
-          alert("날짜, 시간, 일정 내용은 필수 입력 항목입니다.");
-          return;
-      }
+      if (!titleVal) { alert("일정 내용을 입력해 주세요."); return; }
 
-      submitBtn.innerText = "저장 중...";
-      submitBtn.disabled = true;
+      btn.innerText = "저장 중...";
+      btn.disabled = true;
 
       try {
           await addDoc(collection(db, "schedules"), {
@@ -389,23 +572,89 @@
               title: titleVal,
               location: document.getElementById('location').value,
               cost: Number(document.getElementById('cost').value) || 0,
-              addedBy: document.getElementById('addedBy').value,
-              timestamp: new Date()
+              addedBy: document.getElementById('addedBy').value
           });
 
-          // 입력 폼 초기화
           document.getElementById('title').value = '';
           document.getElementById('location').value = '';
           document.getElementById('cost').value = '';
-          
       } catch (e) {
-          console.error("저장 오류: ", e);
-          alert("일정 저장에 실패했습니다. 관리자에게 문의하세요.");
+          alert("저장 실패");
       } finally {
-          submitBtn.innerText = "일정 등록하기 (실시간 동기화)";
-          submitBtn.disabled = false;
+          btn.innerText = "일정 등록하기 (실시간 동기화)";
+          btn.disabled = false;
       }
   });
+
+  /* =======================================
+     비행 정보 기능 (항공권)
+  ======================================= */
+  const qFlights = query(collection(db, "flights"), orderBy("flightDate"));
+  
+  onSnapshot(qFlights, (snapshot) => {
+      const flightContainer = document.getElementById('flightContainer');
+      let html = "";
+
+      if (snapshot.empty) {
+          flightContainer.innerHTML = '<div class="empty-state">등록된 비행 정보가 없습니다.</div>';
+          return;
+      }
+
+      snapshot.forEach((doc) => {
+          const data = doc.data();
+          const badgeColor = data.flightType === '출발편' ? '#3498db' : '#e67e22';
+
+          html += `
+            <div class="schedule-card" style="border-left-color: ${badgeColor};">
+                <button class="delete-btn" onclick="deleteItem('flights', '${doc.id}')" title="삭제">🗑️</button>
+                <div class="content-box">
+                    <div class="content-header">
+                        <div>
+                            <span class="category-badge" style="background:${badgeColor}; color:white;">
+                                ${data.flightType}
+                            </span>
+                            <div class="title">${data.airline}</div>
+                        </div>
+                        <div style="text-align:right; font-size:14px; color:#2c3e50; font-weight:bold;">
+                            ${data.flightDate}
+                        </div>
+                    </div>
+                    <div class="location" style="font-size:15px; margin-top:8px;">🛫 여정: ${data.flightRoute}</div>
+                </div>
+            </div>
+          `;
+      });
+      flightContainer.innerHTML = html;
+  });
+
+  document.getElementById('submitFlightBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('submitFlightBtn');
+      const flightType = document.getElementById('flightType').value;
+      const flightDate = document.getElementById('flightDate').value;
+      const airline = document.getElementById('airline').value;
+      const flightRoute = document.getElementById('flightRoute').value;
+
+      if(!flightDate || !airline || !flightRoute) {
+          alert("모든 항목을 입력해 주세요."); return;
+      }
+
+      btn.innerText = "저장 중...";
+      btn.disabled = true;
+
+      try {
+          await addDoc(collection(db, "flights"), {
+              flightType, flightDate, airline, flightRoute
+          });
+          document.getElementById('airline').value = '';
+          document.getElementById('flightRoute').value = '';
+      } catch (e) {
+          alert("비행 정보 저장 실패");
+      } finally {
+          btn.innerText = "비행 정보 저장하기";
+          btn.disabled = false;
+      }
+  });
+
 </script>
 </body>
 </html>
