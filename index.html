@@ -319,7 +319,7 @@
   };
 
   // 1. 실시간 데이터 불러오기 (Read)
-  const q = query(collection(db, "schedules"), orderBy("date"), orderBy("time"));
+  const q = query(collection(db, "schedules"), orderBy("date"));
   onSnapshot(q, (snapshot) => {
       let html = "";
       let totalAmount = 0;
