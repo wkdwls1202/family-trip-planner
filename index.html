@@ -20,7 +20,6 @@
             padding: 20px;
         }
 
-        /* 컨테이너 */
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -30,7 +29,6 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
-        /* 헤더 */
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -49,7 +47,6 @@
             font-size: 16px;
         }
 
-        /* 여행 정보 섹션 */
         .trip-info {
             display: flex;
             justify-content: space-between;
@@ -59,15 +56,9 @@
             margin-bottom: 25px;
         }
 
-        .trip-info div {
-            font-size: 15px;
-        }
+        .trip-info div { font-size: 15px; }
+        .trip-info strong { color: #2980b9; }
 
-        .trip-info strong {
-            color: #2980b9;
-        }
-
-        /* 일정 추가 폼 영역 */
         .form-section {
             background: #fafafa;
             padding: 20px;
@@ -108,12 +99,6 @@
             font-size: 14px;
             background-color: #fff;
         }
-        
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
-        }
 
         .submit-btn {
             width: 100%;
@@ -128,11 +113,9 @@
             transition: background 0.3s;
         }
 
-        .submit-btn:hover {
-            background-color: #2980b9;
-        }
+        .submit-btn:hover { background-color: #2980b9; }
+        .submit-btn:disabled { background-color: #95a5a6; cursor: not-allowed; }
 
-        /* 일정 목록 영역 */
         .schedule-list-section h2 {
             font-size: 20px;
             color: #2c3e50;
@@ -145,15 +128,14 @@
         .total-cost {
             font-size: 16px;
             color: #e74c3c;
-            font-weight: normal;
+            font-weight: bold;
         }
 
-        /* 개별 일정 카드 */
         .schedule-card {
             display: flex;
             background: #fff;
             border: 1px solid #e0e6ed;
-            border-left: 5px solid #bdc3c7; /* 기본 카테고리 색상 */
+            border-left: 5px solid #bdc3c7;
             border-radius: 6px;
             padding: 15px;
             margin-bottom: 15px;
@@ -166,11 +148,11 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.08);
         }
 
-        /* 카테고리별 왼쪽 보더 색상 (동적 적용 예시) */
-        .cat-transport { border-left-color: #f39c12; } /* 이동: 주황 */
-        .cat-accomodation { border-left-color: #9b59b6; } /* 숙소: 보라 */
-        .cat-food { border-left-color: #e74c3c; } /* 식사: 빨강 */
-        .cat-tour { border-left-color: #2ecc71; } /* 관광: 초록 */
+        .cat-transport { border-left-color: #f39c12; }
+        .cat-accomodation { border-left-color: #9b59b6; }
+        .cat-food { border-left-color: #e74c3c; }
+        .cat-tour { border-left-color: #2ecc71; }
+        .cat-etc { border-left-color: #34495e; }
 
         .time-box {
             min-width: 80px;
@@ -186,9 +168,7 @@
         .time-box .date { font-size: 12px; color: #7f8c8d; font-weight: bold; margin-bottom: 4px; }
         .time-box .time { font-size: 16px; color: #2c3e50; font-weight: bold; }
 
-        .content-box {
-            flex: 1;
-        }
+        .content-box { flex: 1; }
         
         .content-header {
             display: flex;
@@ -202,53 +182,23 @@
             font-size: 11px;
             padding: 3px 8px;
             border-radius: 12px;
-            background: #ecf0f1;
-            color: #34495e;
             font-weight: bold;
             margin-bottom: 5px;
         }
 
-        .title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .location {
-            font-size: 13px;
-            color: #7f8c8d;
-            margin-top: 4px;
-        }
-
-        .cost {
-            font-size: 14px;
-            color: #e74c3c;
-            font-weight: bold;
-            text-align: right;
-        }
+        .title { font-size: 16px; font-weight: bold; color: #2c3e50; }
+        .location { font-size: 13px; color: #7f8c8d; margin-top: 4px; }
+        .cost { font-size: 14px; color: #e74c3c; font-weight: bold; text-align: right; }
+        .added-by { font-size: 11px; color: #95a5a6; text-align: right; margin-top: 4px; }
         
-        .added-by {
-            font-size: 11px;
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
             color: #95a5a6;
-            text-align: right;
-            margin-top: 4px;
+            background: #fdfdfd;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
         }
-        
-        /* 파이어베이스 스크립트 안내 영역 (디자인용) */
-        .code-block {
-            background: #2d2d2d;
-            color: #ccc;
-            padding: 15px;
-            border-radius: 6px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 13px;
-            overflow-x: auto;
-            margin-top: 30px;
-            border-left: 4px solid #3498db;
-        }
-        .code-comment { color: #888; }
-        .code-keyword { color: #c678dd; }
-        .code-string { color: #98c379; }
     </style>
 </head>
 <body>
@@ -261,7 +211,7 @@
 
     <div class="trip-info">
         <div><strong>참석 인원:</strong> 6명 (본인, 어머니, 아내, 딸, 남동생, 사촌)</div>
-        <div><strong>진행 상태:</strong> 일정 조율 중 ✍️</div>
+        <div><strong>진행 상태:</strong> 실시간 동기화 중 🟢</div>
     </div>
 
     <!-- 일정 추가 폼 영역 -->
@@ -271,11 +221,11 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="date">날짜</label>
-                    <input type="text" id="date" value="2026-10-17" required>
+                    <input type="date" id="date" value="2026-10-17" required>
                 </div>
                 <div class="form-group">
                     <label for="time">시간</label>
-                    <input type="text" id="time" value="10:00" required>
+                    <input type="time" id="time" value="10:00" required>
                 </div>
                 <div class="form-group">
                     <label for="category">카테고리</label>
@@ -317,7 +267,7 @@
                 </div>
             </div>
             
-            <button type="button" class="submit-btn" onclick="alert('Firebase 연동 후 작동합니다!')">일정 등록하기 (실시간 동기화)</button>
+            <button type="button" id="submitBtn" class="submit-btn">일정 등록하기 (실시간 동기화)</button>
         </form>
     </div>
 
@@ -325,90 +275,137 @@
     <div class="schedule-list-section">
         <h2>
             등록된 일정 현황
-            <span class="total-cost">예상 총액: 620,000 원</span>
+            <span id="totalCost" class="total-cost">예상 총액: 0 원</span>
         </h2>
         
         <div id="scheduleContainer">
-            <!-- 샘플 데이터 1 -->
-            <div class="schedule-card cat-transport">
-                <div class="time-box">
-                    <div class="date">10/17 (토)</div>
-                    <div class="time">10:00</div>
-                </div>
-                <div class="content-box">
-                    <div class="content-header">
-                        <div>
-                            <span class="category-badge" style="background:#fdebd0; color:#d35400;">🚗 이동수단</span>
-                            <div class="title">브리즈번 공항 도착 및 렌터카 픽업</div>
-                        </div>
-                        <div>
-                            <div class="cost">500,000 원</div>
-                            <div class="added-by">작성: 본인</div>
-                        </div>
-                    </div>
-                    <div class="location">📍 브리즈번 공항 (대형 SUV 예약 확인)</div>
-                </div>
-            </div>
-
-            <!-- 샘플 데이터 2 -->
-            <div class="schedule-card cat-tour">
-                <div class="time-box">
-                    <div class="date">10/18 (일)</div>
-                    <div class="time">14:00</div>
-                </div>
-                <div class="content-box">
-                    <div class="content-header">
-                        <div>
-                            <span class="category-badge" style="background:#d5f5e3; color:#27ae60;">🏞️ 관광지</span>
-                            <div class="title">론 파인 코알라 보호구역 (어머니, 아이)</div>
-                        </div>
-                        <div>
-                            <div class="cost">120,000 원</div>
-                            <div class="added-by">작성: 아내</div>
-                        </div>
-                    </div>
-                    <div class="location">📍 론 파인 보호구역</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 개발자 참고용 하단 블록 -->
-    <div style="margin-top:40px; border-top:1px solid #eee; padding-top:20px;">
-        <h3 style="font-size:16px; color:#7f8c8d;">👨‍💻 개발 가이드: Firebase 실시간 연동 스크립트</h3>
-        <p style="font-size:13px; color:#95a5a6; margin-top:5px;">body 태그 끝나기 직전에 아래 코드를 삽입하여 데이터베이스와 연결합니다.</p>
-        <div class="code-block">
-<span class="code-comment">&lt;!-- Firebase SDK 로드 --&gt;</span>
-&lt;script type="module"&gt;
-  <span class="code-keyword">import</span> { initializeApp } <span class="code-keyword">from</span> <span class="code-string">"https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js"</span>;
-  <span class="code-keyword">import</span> { getFirestore, collection, addDoc, onSnapshot, query, orderBy } <span class="code-keyword">from</span> <span class="code-string">"https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"</span>;
-
-  <span class="code-comment">// 1. Firebase 프로젝트 설정 (콘솔에서 발급받은 키 입력)</span>
-  <span class="code-keyword">const</span> firebaseConfig = {
-    apiKey: <span class="code-string">"본인의_API_KEY"</span>,
-    projectId: <span class="code-string">"family-trip-planner-2026"</span>,
-    <span class="code-comment">// ... 기타 설정값</span>
-  };
-
-  <span class="code-comment">// 2. 앱 및 DB 초기화</span>
-  <span class="code-keyword">const</span> app = initializeApp(firebaseConfig);
-  <span class="code-keyword">const</span> db = getFirestore(app);
-
-  <span class="code-comment">// 3. 실시간 데이터 불러오기 (onSnapshot)</span>
-  <span class="code-keyword">const</span> q = query(collection(db, <span class="code-string">"schedules"</span>), orderBy(<span class="code-string">"date"</span>));
-  onSnapshot(q, (snapshot) => {
-    <span class="code-comment">// DB에 변화가 생기면 즉시 이 함수가 실행되어 화면을 새로 그립니다.</span>
-    <span class="code-keyword">let</span> html = "";
-    snapshot.forEach((doc) => {
-      <span class="code-keyword">const</span> data = doc.data();
-      <span class="code-comment">// HTML 생성 로직 추가...</span>
-    });
-    document.getElementById(<span class="code-string">'scheduleContainer'</span>).innerHTML = html;
-  });
-&lt;/script&gt;
+            <div class="empty-state">데이터를 불러오는 중입니다...</div>
         </div>
     </div>
 </div>
 
+<!-- Firebase 실제 연동 스크립트 -->
+<script type="module">
+  // GitHub Pages(정적 호스팅) 환경을 위해 CDN 방식으로 Firebase 모듈을 불러옵니다.
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+  // 발급받은 Firebase 구성
+  const firebaseConfig = {
+    apiKey: "AIzaSyB0KfG5lxxHBX5mzSb_7ZAF_tpqATtqe3M",
+    authDomain: "family-trip-2026-112f8.firebaseapp.com",
+    projectId: "family-trip-2026-112f8",
+    storageBucket: "family-trip-2026-112f8.firebasestorage.app",
+    messagingSenderId: "660729747494",
+    appId: "1:660729747494:web:c9cea0b85275d599f7eee7"
+  };
+
+  // Firebase 초기화
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // HTML 요소 가져오기
+  const scheduleContainer = document.getElementById('scheduleContainer');
+  const totalCostElement = document.getElementById('totalCost');
+  const submitBtn = document.getElementById('submitBtn');
+
+  // 카테고리별 디자인 설정
+  const categoryStyles = {
+      'tour': { class: 'cat-tour', bg: '#d5f5e3', color: '#27ae60', icon: '🏞️', text: '관광지' },
+      'food': { class: 'cat-food', bg: '#fadbd8', color: '#c0392b', icon: '🍽️', text: '식사' },
+      'transport': { class: 'cat-transport', bg: '#fdebd0', color: '#d35400', icon: '🚗', text: '이동수단' },
+      'accomodation': { class: 'cat-accomodation', bg: '#ebdef0', color: '#8e44ad', icon: '🏨', text: '숙소' },
+      'etc': { class: 'cat-etc', bg: '#ecf0f1', color: '#34495e', icon: '📌', text: '기타' }
+  };
+
+  // 1. 실시간 데이터 불러오기 (Read)
+  const q = query(collection(db, "schedules"), orderBy("date"), orderBy("time"));
+  onSnapshot(q, (snapshot) => {
+      let html = "";
+      let totalAmount = 0;
+
+      if (snapshot.empty) {
+          scheduleContainer.innerHTML = '<div class="empty-state">아직 등록된 일정이 없습니다. 첫 일정을 추가해 보세요!</div>';
+          totalCostElement.innerText = "예상 총액: 0 원";
+          return;
+      }
+
+      snapshot.forEach((doc) => {
+          const data = doc.data();
+          const cost = Number(data.cost) || 0;
+          totalAmount += cost;
+
+          const style = categoryStyles[data.category] || categoryStyles['etc'];
+          const dateFormatted = data.date.substring(5).replace('-', '/'); // "2026-10-17" -> "10/17"
+
+          html += `
+            <div class="schedule-card ${style.class}">
+                <div class="time-box">
+                    <div class="date">${dateFormatted}</div>
+                    <div class="time">${data.time}</div>
+                </div>
+                <div class="content-box">
+                    <div class="content-header">
+                        <div>
+                            <span class="category-badge" style="background:${style.bg}; color:${style.color};">
+                                ${style.icon} ${style.text}
+                            </span>
+                            <div class="title">${data.title}</div>
+                        </div>
+                        <div>
+                            <div class="cost">${cost.toLocaleString()} 원</div>
+                            <div class="added-by">작성: ${data.addedBy}</div>
+                        </div>
+                    </div>
+                    <div class="location">📍 ${data.location || '위치 미지정'}</div>
+                </div>
+            </div>
+          `;
+      });
+      
+      scheduleContainer.innerHTML = html;
+      totalCostElement.innerText = `예상 총액: ${totalAmount.toLocaleString()} 원`;
+  });
+
+  // 2. 새로운 일정 추가하기 (Create)
+  submitBtn.addEventListener('click', async () => {
+      const dateVal = document.getElementById('date').value;
+      const timeVal = document.getElementById('time').value;
+      const titleVal = document.getElementById('title').value;
+      
+      if (!dateVal || !timeVal || !titleVal) {
+          alert("날짜, 시간, 일정 내용은 필수 입력 항목입니다.");
+          return;
+      }
+
+      submitBtn.innerText = "저장 중...";
+      submitBtn.disabled = true;
+
+      try {
+          await addDoc(collection(db, "schedules"), {
+              date: dateVal,
+              time: timeVal,
+              category: document.getElementById('category').value,
+              title: titleVal,
+              location: document.getElementById('location').value,
+              cost: Number(document.getElementById('cost').value) || 0,
+              addedBy: document.getElementById('addedBy').value,
+              timestamp: new Date()
+          });
+
+          // 입력 폼 초기화
+          document.getElementById('title').value = '';
+          document.getElementById('location').value = '';
+          document.getElementById('cost').value = '';
+          
+      } catch (e) {
+          console.error("저장 오류: ", e);
+          alert("일정 저장에 실패했습니다. 관리자에게 문의하세요.");
+      } finally {
+          submitBtn.innerText = "일정 등록하기 (실시간 동기화)";
+          submitBtn.disabled = false;
+      }
+  });
+</script>
 </body>
 </html>
