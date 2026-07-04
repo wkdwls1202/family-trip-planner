@@ -17,34 +17,54 @@
             background-color: #f4f7f6;
             color: #333;
             line-height: 1.6;
-            padding: 20px;
+            padding: 10px;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
             background: #fff;
-            padding: 30px;
+            padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            position: relative;
         }
 
         header {
             text-align: center;
             margin-bottom: 20px;
-            padding-bottom: 20px;
+            padding-bottom: 15px;
+            padding-top: 35px; /* 초기화 버튼을 위한 상단 여백 */
         }
 
         header h1 {
             color: #2c3e50;
-            font-size: 28px;
-            margin-bottom: 10px;
+            font-size: 24px;
+            word-break: keep-all;
         }
 
-        /* 탭 네비게이션 (비행 정보가 먼저 오도록 순서 변경) */
+        /* 1. 새로운 여행으로 초기화 버튼 (우측 상단 고정) */
+        .reset-app-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            z-index: 10;
+        }
+        .reset-app-btn:hover { background-color: #c0392b; }
+
+        /* 탭 네비게이션 */
         .tabs-container {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 20px;
             border-bottom: 2px solid #e0e6ed;
             padding-bottom: 10px;
@@ -52,11 +72,11 @@
 
         .main-tab-btn {
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             background: #f1f2f6;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             color: #7f8c8d;
             cursor: pointer;
@@ -66,74 +86,76 @@
         .main-tab-btn.active {
             background: #3498db;
             color: white;
-            box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3);
         }
 
         .trip-info {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 5px;
             background: #e8f4f8;
-            padding: 15px 20px;
+            padding: 12px 15px;
             border-radius: 8px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+            font-size: 13px;
         }
 
-        .trip-info div { font-size: 14px; }
-        .trip-info strong { color: #2980b9; }
-
-        /* 입력 폼 영역 */
+        /* 입력 폼 영역 (5. 모바일 해상도 최적화) */
         .form-section {
             background: #fafafa;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             border: 1px solid #ddd;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .form-section h2 {
-            font-size: 18px;
+            font-size: 16px;
             color: #34495e;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
         .cancel-edit-btn {
-            font-size: 13px;
+            font-size: 12px;
             background: #e74c3c;
             color: white;
             border: none;
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 4px;
             cursor: pointer;
-            display: none; /* 수정 모드일 때만 표시 */
+            display: none;
         }
 
+        /* 기본적으로 1줄에 1개씩 떨어지도록 설정 (모바일 최적화) */
         .form-row {
             display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 12px;
         }
 
         .form-group {
-            flex: 1;
             display: flex;
             flex-direction: column;
         }
 
         .form-group label {
-            font-size: 13px;
+            font-size: 12px;
             color: #555;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             font-weight: bold;
         }
 
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 14px;
             background-color: #fff;
+            width: 100%; /* 부모 너비를 넘지 않도록 차단 */
+            max-width: 100%;
         }
 
         .submit-btn {
@@ -143,97 +165,69 @@
             color: white;
             border: none;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
         }
-
-        .submit-btn:hover { background-color: #2980b9; }
-        .submit-btn:disabled { background-color: #95a5a6; cursor: not-allowed; }
-        
-        /* 버튼 색상 (수정 모드용) */
+        .submit-btn:disabled { background-color: #95a5a6; }
         .btn-update { background-color: #27ae60 !important; }
-        .btn-update:hover { background-color: #2ecc71 !important; }
 
-        /* 날짜별 탭 */
+        /* 날짜별 서브 탭 */
         .date-tabs {
             display: flex;
             overflow-x: auto;
-            gap: 8px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            white-space: nowrap;
+            gap: 6px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
         }
-
-        .date-tabs::-webkit-scrollbar { height: 6px; }
-        .date-tabs::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
-
         .date-btn {
-            padding: 8px 16px;
+            padding: 6px 12px;
             background: #fff;
             border: 1px solid #bdc3c7;
             border-radius: 20px;
-            color: #34495e;
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 13px;
             cursor: pointer;
-            transition: all 0.2s;
+            white-space: nowrap;
         }
-
         .date-btn.active {
             background: #2c3e50;
             color: white;
             border-color: #2c3e50;
         }
 
-        /* 일정 목록 영역 */
         .schedule-list-section h2 {
-            font-size: 18px;
+            font-size: 16px;
             color: #2c3e50;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .total-cost {
-            font-size: 14px;
+            font-size: 13px;
             color: #e74c3c;
             font-weight: bold;
             background: #fadbd8;
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 12px;
         }
 
-        /* 드래그 앤 드롭 지원 및 버튼 겹침 해결 */
+        /* 4. 카드 배치 구조 업데이트 및 6. 버튼 겹침 방지 */
         .schedule-card {
             display: flex;
             background: #fff;
             border: 1px solid #e0e6ed;
             border-left: 5px solid #bdc3c7;
             border-radius: 6px;
-            padding: 15px;
-            padding-right: 80px; /* 텍스트와 버튼 겹침 방지 여백 */
-            margin-bottom: 15px;
+            padding: 12px;
+            padding-right: 75px; /* 우측 수정/삭제 버튼 공간 분리 */
+            margin-bottom: 12px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
             position: relative;
             cursor: grab;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
         
-        .schedule-card:active { cursor: grabbing; }
-        
-        /* 드래그 중인 카드 시각적 효과 */
-        .schedule-card.dragging {
-            opacity: 0.5;
-            border: 2px dashed #3498db;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-        }
-        /* 드롭 위치 안내 선 */
-        .schedule-card.drag-over { border-top: 3px solid #3498db !important; }
-        .schedule-card.drag-over-bottom { border-bottom: 3px solid #3498db !important; }
-
         .cat-transport { border-left-color: #f39c12; }
         .cat-accomodation { border-left-color: #9b59b6; }
         .cat-food { border-left-color: #e74c3c; }
@@ -241,241 +235,298 @@
         .cat-etc { border-left-color: #34495e; }
 
         .time-box {
-            min-width: 60px;
+            min-width: 55px;
             border-right: 1px dashed #ccc;
-            padding-right: 15px;
-            margin-right: 15px;
+            padding-right: 10px;
+            margin-right: 10px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             text-align: center;
         }
+        .time-box .time { font-size: 14px; color: #2c3e50; font-weight: bold; }
 
-        .time-box .time { font-size: 16px; color: #2c3e50; font-weight: bold; }
-
-        .content-box { flex: 1; }
+        .content-box { flex: 1; min-width: 0; } /* 텍스트 넘침 방지 */
         
-        .content-header {
+        /* 배치 변경 구조 */
+        .card-top-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap; /* 모바일에서 넘치면 아래로 내림 */
+            margin-bottom: 4px;
+        }
+        .schedule-title-text {
+            font-size: 15px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .card-location-text {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        .card-desc-text {
+            font-size: 13px;
+            color: #555;
+            margin-top: 4px;
+            word-break: break-all;
+        }
+
+        .card-bottom-row {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 5px;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 12px;
         }
+        .cost { color: #e74c3c; font-weight: bold; }
+        .added-by { color: #95a5a6; }
 
-        .category-badge {
-            display: inline-block;
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 12px;
+        /* 비행 카드 확장 배치 */
+        .flight-time-info {
+            font-size: 13px;
+            color: #2980b9;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-top: 2px;
         }
-
-        .title { font-size: 16px; font-weight: bold; color: #2c3e50; }
-        .location { font-size: 13px; color: #7f8c8d; margin-top: 4px; }
-        .cost { font-size: 14px; color: #e74c3c; font-weight: bold; text-align: right; }
-        .added-by { font-size: 11px; color: #95a5a6; text-align: right; margin-top: 4px; }
+        .flight-note-text {
+            font-size: 12px;
+            color: #7f8c8d;
+            background: #f8f9fa;
+            padding: 4px 6px;
+            border-radius: 4px;
+            margin-top: 4px;
+        }
         
-        /* 삭제 및 수정 버튼 그룹 */
         .action-btns {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 12px;
+            right: 12px;
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
         .action-btns button {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 16px;
-            opacity: 0.5;
-            transition: all 0.2s;
-            padding: 0;
+            font-size: 15px;
+            opacity: 0.6;
         }
-        .action-btns button:hover { opacity: 1; transform: scale(1.1); }
-        .btn-edit:hover { color: #3498db; }
-        .btn-delete:hover { color: #e74c3c; }
 
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 10px;
             color: #95a5a6;
-            background: #fdfdfd;
+            font-size: 13px;
             border: 1px dashed #ccc;
             border-radius: 8px;
         }
 
         .hidden { display: none !important; }
+
+        /* 5. 태블릿 및 PC 해상도용 확장 레이아웃 (가로 배열 허용) */
+        @media (min-width: 600px) {
+            body { padding: 20px; }
+            .container { padding: 30px; }
+            header h1 { font-size: 28px; }
+            .trip-info { flex-direction: row; justify-content: space-between; font-size: 14px; }
+            .form-row { flex-direction: row; }
+            .form-section h2 { font-size: 18px; }
+            .schedule-list-section h2 { font-size: 18px; }
+        }
     </style>
 </head>
 <body>
 
-<!-- 1. 초기 여행 설정 화면 (메인 페이지) -->
-<div id="setupScreen" class="container hidden">
-    <header>
-        <h1>✈️ 새로운 여행 기획하기</h1>
-        <p>여행의 기본 정보를 먼저 설정해 주세요.</p>
-    </header>
-    <div class="form-section">
-        <form id="setupForm">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>여행 이름</label>
-                    <input type="text" id="setupTitle" placeholder="예: 호주 브리즈번 & 골드코스트 가족 여행" required>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>시작일</label>
-                    <input type="date" id="setupStartDate" required>
-                </div>
-                <div class="form-group">
-                    <label>종료일</label>
-                    <input type="date" id="setupEndDate" required>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>전체 참석자 명단 (쉼표로 구분)</label>
-                    <input type="text" id="setupParticipants" placeholder="예: 권장진, 어머니, 한나리, 딸, 권태진" required>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>작성 권한자 명단 (쉼표로 구분)</label>
-                    <input type="text" id="setupAuthors" placeholder="예: 권장진, 한나리, 권태진" required>
-                </div>
-            </div>
-            <button type="submit" class="submit-btn">여행 페이지 생성 및 입장하기</button>
-        </form>
-    </div>
-</div>
+<div class="container">
+    <!-- 1. 새로운 여행으로 초기화 버튼 -->
+    <button class="reset-app-btn" onclick="resetWholeApp()">🔄 여행 초기화</button>
 
-<!-- 2. 실제 여행 플래너 앱 화면 -->
-<div id="appScreen" class="container hidden">
-    <header>
-        <h1 id="displayTripTitle">여행 제목 로딩중...</h1>
-    </header>
-
-    <!-- 메인 탭 전환 (요구사항: 비행 정보 탭 왼쪽으로 이동) -->
-    <div class="tabs-container">
-        <button class="main-tab-btn active" data-target="flightTab" onclick="switchTab('flightTab')">✈️ 비행 정보</button>
-        <button class="main-tab-btn" data-target="plannerTab" onclick="switchTab('plannerTab')">📅 여행 플래너</button>
-    </div>
-
-    <div class="trip-info">
-        <div><strong>참석:</strong> <span id="displayParticipants">로딩중</span></div>
-        <div><strong>일정:</strong> <span id="displayDates">로딩중</span></div>
-    </div>
-
-    <!-- 비행 정보 탭 (기본 활성화) -->
-    <div id="flightTab">
+    <!-- [화면 1] 초기 여행 설정 화면 -->
+    <div id="setupScreen" class="hidden">
+        <header>
+            <h1>✈️ 새로운 여행 기획하기</h1>
+            <p>여행의 기본 정보를 먼저 설정해 주세요.</p>
+        </header>
         <div class="form-section">
-            <h2>항공권 정보 등록</h2>
-            <form id="flightForm">
+            <form id="setupForm">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="flightType">구분</label>
-                        <select id="flightType">
-                            <option value="출발편">출발편 (출국)</option>
-                            <option value="귀국편">귀국편 (입국)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="flightDate">탑승 날짜</label>
-                        <input type="date" id="flightDate" required>
+                        <label>여행 이름</label>
+                        <input type="text" id="setupTitle" placeholder="예: 호주 브리즈번 & 골드코스트 가족 여행" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="airline">항공사 및 편명</label>
-                        <input type="text" id="airline" placeholder="예: 대한항공 KE123" required>
+                        <label>시작일</label>
+                        <input type="date" id="setupStartDate" required>
                     </div>
                     <div class="form-group">
-                        <label for="flightRoute">여정</label>
-                        <input type="text" id="flightRoute" placeholder="예: 인천(ICN) -> 브리즈번(BNE)" required>
+                        <label>종료일</label>
+                        <input type="date" id="setupEndDate" required>
                     </div>
                 </div>
-                <button type="button" id="submitFlightBtn" class="submit-btn">비행 정보 저장하기</button>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>전체 참석자 명단 (쉼표로 구분)</label>
+                        <input type="text" id="setupParticipants" placeholder="예: 권장진, 어머니, 한나리, 딸, 권태진" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>작성 권한자 명단 (쉼표로 구분)</label>
+                        <input type="text" id="setupAuthors" placeholder="예: 권장진, 한나리, 권태진" required>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">여행 페이지 생성 및 입장하기</button>
             </form>
         </div>
-
-        <div class="schedule-list-section">
-            <h2>등록된 비행 정보</h2>
-            <div id="flightContainer">
-                <div class="empty-state">데이터를 불러오는 중입니다...</div>
-            </div>
-        </div>
     </div>
 
-    <!-- 여행 플래너 탭 -->
-    <div id="plannerTab" class="hidden">
-        <div class="form-section">
-            <h2>
-                <span id="formTitleText">새로운 일정 추가</span>
-                <button id="cancelEditBtn" class="cancel-edit-btn" onclick="cancelEdit()">수정 취소</button>
-            </h2>
-            <form id="scheduleForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="date">날짜</label>
-                        <!-- 초기화 시 동적으로 채워짐 -->
-                        <select id="date"></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="time">시간</label>
-                        <input type="time" id="time" value="10:00" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="category">카테고리</label>
-                        <select id="category">
-                            <option value="tour">관광지</option>
-                            <option value="food">식사</option>
-                            <option value="transport">이동수단</option>
-                            <option value="accomodation">숙소</option>
-                            <option value="etc">기타</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="title">일정 내용</label>
-                        <input type="text" id="title" placeholder="예: 론 파인 코알라 보호구역 관람" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="location">장소/위치</label>
-                        <input type="text" id="location" placeholder="예: 브리즈번 시내">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="cost">예상 비용 (원)</label>
-                        <input type="number" id="cost" placeholder="0" min="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="addedBy">작성자</label>
-                        <!-- 초기화 시 메인 페이지 정보로 동적 생성됨 -->
-                        <select id="addedBy"></select>
-                    </div>
-                </div>
-                <button type="button" id="submitScheduleBtn" class="submit-btn">일정 등록하기 (시간에 맞춰 자동 정렬)</button>
-            </form>
+    <!-- [화면 2] 실제 여행 플래너 앱 화면 -->
+    <div id="appScreen" class="hidden">
+        <header>
+            <h1 id="displayTripTitle">로딩중...</h1>
+        </header>
+
+        <div class="tabs-container">
+            <button class="main-tab-btn active" data-target="flightTab" onclick="switchTab('flightTab')">✈️ 비행 정보</button>
+            <button class="main-tab-btn" data-target="plannerTab" onclick="switchTab('plannerTab')">📅 여행 플래너</button>
         </div>
 
-        <div class="schedule-list-section">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <h2>일정 현황 (드래그로 순서 변경 가능)</h2>
-                <span id="totalCost" class="total-cost">총액: 0 원</span>
+        <div class="trip-info">
+            <div><strong>참석:</strong> <span id="displayParticipants">로딩중</span></div>
+            <div><strong>일정:</strong> <span id="displayDates">로딩중</span></div>
+        </div>
+
+        <!-- 비행 정보 탭 -->
+        <div id="flightTab">
+            <div class="form-section">
+                <h2>항공권 정보 등록</h2>
+                <form id="flightForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="flightType">구분</label>
+                            <select id="flightType">
+                                <option value="출발편">출발편 (출국)</option>
+                                <option value="귀국편">귀국편 (입국)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="flightDate">탑승 날짜</label>
+                            <input type="date" id="flightDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="airline">항공사 및 편명</label>
+                            <input type="text" id="airline" placeholder="예: 대한항공 KE123" required>
+                        </div>
+                        <div class="form-group">
+                            <!-- 2. 비행 시간 추가 -->
+                            <label for="flightTime">비행 시간/출발 시각</label>
+                            <input type="text" id="flightTime" placeholder="예: 20:00 출발 -> 06:50 도착">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="flightRoute">여정 노선</label>
+                            <input type="text" id="flightRoute" placeholder="예: 인천(ICN) -> 브리즈번(BNE)" required>
+                        </div>
+                    </div>
+                    <!-- 2. 비행 비고 입력 추가 -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="flightNote">비행 비고 사항</label>
+                            <textarea id="flightNote" rows="2" placeholder="예: 기내식 사전 신청 완료, 수하물 인당 23kg까지"></textarea>
+                        </div>
+                    </div>
+                    <button type="button" id="submitFlightBtn" class="submit-btn">비행 정보 저장하기</button>
+                </form>
             </div>
 
-            <!-- 날짜별 조회 탭 -->
-            <div class="date-tabs" id="dateTabsContainer"></div>
-            
-            <div id="scheduleContainer">
-                <div class="empty-state">데이터를 불러오는 중입니다...</div>
+            <div class="schedule-list-section">
+                <h2>등록된 비행 정보</h2>
+                <div id="flightContainer">
+                    <div class="empty-state">데이터를 불러오는 중입니다...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 여행 플래너 탭 -->
+        <div id="plannerTab" class="hidden">
+            <div class="form-section">
+                <h2>
+                    <span id="formTitleText">새로운 일정 추가</span>
+                    <button id="cancelEditBtn" class="cancel-edit-btn" onclick="cancelEdit()">수정 취소</button>
+                </h2>
+                <form id="scheduleForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date">날짜</label>
+                            <select id="date"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">시간</label>
+                            <input type="time" id="time" value="10:00" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">카테고리</label>
+                            <select id="category">
+                                <option value="tour">관광지</option>
+                                <option value="food">식사</option>
+                                <option value="transport">이동수단</option>
+                                <option value="accomodation">숙소</option>
+                                <option value="etc">기타</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <!-- 3. 일정 명 입력 칸 추가 -->
+                        <div class="form-group">
+                            <label for="scheduleName">일정 명</label>
+                            <input type="text" id="scheduleName" placeholder="예: 코알라 보호구역 관람" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">장소/위치</label>
+                            <input type="text" id="location" placeholder="예: 브리즈번 론 파인">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="title">일정 상세 내용</label>
+                            <input type="text" id="title" placeholder="예: 어머니 풍경 감상 및 아이 동물 체험용">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cost">예상 비용 (원)</label>
+                            <input type="number" id="cost" placeholder="0" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="addedBy">작성자</label>
+                            <select id="addedBy"></select>
+                        </div>
+                    </div>
+                    <!-- 4. 정렬 가이드 명시 -->
+                    <button type="button" id="submitScheduleBtn" class="submit-btn">일정 등록하기 (시간 순 자동 정렬)</button>
+                </form>
+            </div>
+
+            <div class="schedule-list-section">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h2>일정 현황 (드래그로 순서 변경 가능)</h2>
+                    <span id="totalCost" class="total-cost">총액: 0 원</span>
+                </div>
+
+                <div class="date-tabs" id="dateTabsContainer"></div>
+                
+                <div id="scheduleContainer">
+                    <div class="empty-state">데이터를 불러오는 중입니다...</div>
+                </div>
             </div>
         </div>
     </div>
@@ -498,7 +549,6 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // 전역 상태 변수
   let allSchedules = [];
   let currentFilterDate = 'all';
   let editingScheduleId = null;
@@ -511,13 +561,20 @@
       'etc': { class: 'cat-etc', bg: '#ecf0f1', color: '#34495e', icon: '📌', text: '기타' }
   };
 
-  /* =======================================
-     0. 여행 정보 메인 셋업 (생성 및 연동)
-  ======================================= */
-  const setupScreen = document.getElementById('setupScreen');
-  const appScreen = document.getElementById('appScreen');
+  // 1. 초기화 버튼 기능 구현
+  window.resetWholeApp = async function() {
+      if(confirm("⚠️ 주의: 저장된 모든 여행 일정, 비행 정보 및 메인 세팅 데이터가 완전히 초기화됩니다. 계속하시겠습니까?")) {
+          try {
+              // 메인 설정 정보 삭제
+              await deleteDoc(doc(db, "settings", "tripInfo"));
+              alert("초기화되었습니다. 새로운 여행 설정을 시작하세요.");
+              location.reload();
+          } catch (e) {
+              alert("초기화 중 오류 발생");
+          }
+      }
+  }
 
-  // 날짜 사이의 모든 날짜 배열 반환 함수
   function getDatesArray(start, end) {
       const arr = [];
       let dt = new Date(start);
@@ -532,11 +589,12 @@
       return arr;
   }
 
-  // 실시간 여행 세팅 정보 감시
+  // 데이터 감시 및 화면 제어
   onSnapshot(doc(db, "settings", "tripInfo"), (docSnap) => {
+      const setupScreen = document.getElementById('setupScreen');
+      const appScreen = document.getElementById('appScreen');
       if (docSnap.exists()) {
-          const info = docSnap.data();
-          applyTripInfo(info);
+          applyTripInfo(docSnap.data());
           setupScreen.classList.add('hidden');
           appScreen.classList.remove('hidden');
       } else {
@@ -545,72 +603,44 @@
       }
   });
 
-  // 새 여행 생성 폼 제출
   document.getElementById('setupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const title = document.getElementById('setupTitle').value;
-      const startDate = document.getElementById('setupStartDate').value;
-      const endDate = document.getElementById('setupEndDate').value;
-      const participants = document.getElementById('setupParticipants').value;
-      const authors = document.getElementById('setupAuthors').value;
-
-      if (startDate > endDate) { alert("종료일이 시작일보다 빠를 수 없습니다."); return; }
-
       await setDoc(doc(db, "settings", "tripInfo"), {
-          title, startDate, endDate, participants, authors
+          title: document.getElementById('setupTitle').value,
+          startDate: document.getElementById('setupStartDate').value,
+          endDate: document.getElementById('setupEndDate').value,
+          participants: document.getElementById('setupParticipants').value,
+          authors: document.getElementById('setupAuthors').value
       });
   });
 
-  // 세팅 정보를 UI에 반영
   function applyTripInfo(info) {
       document.getElementById('displayTripTitle').innerText = info.title;
       document.getElementById('displayParticipants').innerText = info.participants;
-      
-      const formattedStart = info.startDate.substring(5).replace('-', '.');
-      const formattedEnd = info.endDate.substring(5).replace('-', '.');
-      document.getElementById('displayDates').innerText = `${formattedStart} ~ ${formattedEnd}`;
+      document.getElementById('displayDates').innerText = `${info.startDate.substring(5)} ~ ${info.endDate.substring(5)}`;
 
-      // 작성자 Select Box 동적 생성
       const authorsList = info.authors.split(',').map(s => s.trim()).filter(s => s);
       const addedBySelect = document.getElementById('addedBy');
       addedBySelect.innerHTML = '';
-      authorsList.forEach(author => {
-          const opt = document.createElement('option');
-          opt.value = author; opt.innerText = author;
-          addedBySelect.appendChild(opt);
+      authorsList.forEach(a => {
+          addedBySelect.innerHTML += `<option value="${a}">${a}</option>`;
       });
 
-      // 날짜 탭 & 일정 추가 Select Box 동적 생성
       const dateTabsContainer = document.getElementById('dateTabsContainer');
       const plannerDateSelect = document.getElementById('date');
-      
       dateTabsContainer.innerHTML = '<button class="date-btn active" data-date="all" onclick="filterByDate(\'all\')">전체 일정</button>';
       plannerDateSelect.innerHTML = '';
 
-      const dates = getDatesArray(info.startDate, info.endDate);
-      dates.forEach(dateStr => {
+      getDatesArray(info.startDate, info.endDate).forEach(dateStr => {
           const shortDate = dateStr.substring(5).replace('-', '/');
           dateTabsContainer.innerHTML += `<button class="date-btn" data-date="${dateStr}" onclick="filterByDate('${dateStr}')">${shortDate}</button>`;
-          
-          const opt = document.createElement('option');
-          opt.value = dateStr; opt.innerText = `${shortDate}`;
-          plannerDateSelect.appendChild(opt);
+          plannerDateSelect.innerHTML += `<option value="${dateStr}">${shortDate}</option>`;
       });
-
-      // 유지되던 필터 활성화 상태 재적용
-      document.querySelectorAll('.date-btn').forEach(btn => btn.classList.remove('active'));
-      const activeBtn = document.querySelector(`.date-btn[data-date="${currentFilterDate}"]`);
-      if(activeBtn) activeBtn.classList.add('active');
-      else document.querySelector('.date-btn[data-date="all"]').classList.add('active');
   }
 
-  /* =======================================
-     1. 공통 기능 (탭 전환, 삭제)
-  ======================================= */
   window.switchTab = function(targetId) {
       document.querySelectorAll('.main-tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelector(`.main-tab-btn[data-target="${targetId}"]`).classList.add('active');
-      
       document.getElementById('plannerTab').classList.add('hidden');
       document.getElementById('flightTab').classList.add('hidden');
       document.getElementById(targetId).classList.remove('hidden');
@@ -619,55 +649,38 @@
   window.filterByDate = function(dateStr) {
       currentFilterDate = dateStr;
       document.querySelectorAll('.date-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelector(`.date-btn[data-date="${dateStr}"]`).classList.add('active');
+      const tgt = document.querySelector(`.date-btn[data-date="${dateStr}"]`);
+      if(tgt) tgt.classList.add('active');
       renderSchedules();
   };
 
-  window.deleteItem = async function(collectionName, id) {
-      if(confirm('정말 이 항목을 삭제하시겠습니까?')) {
-          try {
-              await deleteDoc(doc(db, collectionName, id));
-          } catch (e) {
-              alert('삭제 중 오류가 발생했습니다.');
-          }
-      }
+  window.deleteItem = async function(col, id) {
+      if(confirm('삭제하시겠습니까?')) await deleteDoc(doc(db, col, id));
   };
 
-  /* =======================================
-     2. 여행 플래너 (일정 추가, 수정, 정렬, 드래그 앤 드롭)
-  ======================================= */
-  
-  // 일정 실시간 수신
-  const qSchedules = query(collection(db, "schedules"));
-  onSnapshot(qSchedules, (snapshot) => {
+  /* 플래너 스케줄 관련 로직 */
+  onSnapshot(query(collection(db, "schedules")), (snapshot) => {
       allSchedules = [];
-      snapshot.forEach((doc) => {
-          allSchedules.push({ id: doc.id, ...doc.data() });
-      });
+      snapshot.forEach(d => allSchedules.push({ id: d.id, ...d.data() }));
       renderSchedules();
   });
 
-  // 일정 렌더링 함수
   function renderSchedules() {
-      const scheduleContainer = document.getElementById('scheduleContainer');
+      const container = document.getElementById('scheduleContainer');
       const totalCostElement = document.getElementById('totalCost');
-      
-      let html = "";
-      let totalAmount = 0;
+      let html = "", totalAmount = 0;
 
-      // 1) 날짜 필터링
-      const filtered = currentFilterDate === 'all' 
-          ? allSchedules 
-          : allSchedules.filter(s => s.date === currentFilterDate);
+      const filtered = currentFilterDate === 'all' ? allSchedules : allSchedules.filter(s => s.date === currentFilterDate);
 
-      // 2) 정렬: 일자 우선 -> 사용자가 지정한 순서(orderValue) -> 시간에 맞춰 자동 정렬
+      // 4. 시간에 따른 정렬 규칙 적용 (시간 -> orderValue 가중치순)
       filtered.sort((a, b) => {
           if (a.date !== b.date) return a.date.localeCompare(b.date);
+          if (a.time !== b.time) return a.time.localeCompare(b.time);
           return (a.orderValue || 0) - (b.orderValue || 0);
       });
 
       if (filtered.length === 0) {
-          scheduleContainer.innerHTML = '<div class="empty-state">해당 날짜에 등록된 일정이 없습니다.</div>';
+          container.innerHTML = '<div class="empty-state">등록된 일정이 없습니다.</div>';
           totalCostElement.innerText = "총액: 0 원";
           return;
       }
@@ -675,284 +688,169 @@
       filtered.forEach((data) => {
           const cost = Number(data.cost) || 0;
           totalAmount += cost;
-
           const style = categoryStyles[data.category] || categoryStyles['etc'];
           const dateFormatted = data.date.substring(5).replace('-', '/');
 
+          // 4. 카드 배치 요구사항 레이아웃 설계 반영
           html += `
             <div class="schedule-card ${style.class}" draggable="true" data-id="${data.id}">
-                <!-- 우측 상단 수정/삭제 버튼 (텍스트와 겹치지 않는 독립 영역) -->
                 <div class="action-btns">
-                    <button class="btn-edit" onclick="editSchedule('${data.id}')" title="수정">✏️</button>
-                    <button class="btn-delete" onclick="deleteItem('schedules', '${data.id}')" title="삭제">🗑️</button>
+                    <button class="btn-edit" onclick="editSchedule('${data.id}')">✏️</button>
+                    <button class="btn-delete" onclick="deleteItem('schedules', '${data.id}')">🗑️</button>
                 </div>
-
                 <div class="time-box">
-                    <div style="font-size:11px; color:#7f8c8d; margin-bottom:2px;">${dateFormatted}</div>
+                    <div style="font-size:11px; color:#7f8c8d;">${dateFormatted}</div>
                     <div class="time">${data.time}</div>
                 </div>
                 <div class="content-box">
-                    <div class="content-header">
-                        <div>
-                            <span class="category-badge" style="background:${style.bg}; color:${style.color};">
-                                ${style.icon} ${style.text}
-                            </span>
-                            <div class="title">${data.title}</div>
-                        </div>
+                    <div class="card-top-row">
+                        <span class="schedule-title-text">${data.scheduleName || data.title || '미지정 일정'}</span>
+                        <span class="card-location-text">📍 ${data.location || '위치 미지정'}</span>
                     </div>
-                    <div class="location">📍 ${data.location || '위치 미지정'}</div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-                        <div class="added-by">작성: ${data.addedBy}</div>
-                        <div class="cost">${cost.toLocaleString()} 원</div>
+                    <div class="card-desc-text">${data.title || ''}</div>
+                    <div class="card-bottom-row">
+                        <span class="category-badge" style="background:${style.bg}; color:${style.color};">${style.icon} ${style.text}</span>
+                        <span class="added-by">작성: ${data.addedBy || ''}</span>
+                        <span class="cost">${cost.toLocaleString()} 원</span>
                     </div>
                 </div>
             </div>
           `;
       });
-      
-      scheduleContainer.innerHTML = html;
+      container.innerHTML = html;
       totalCostElement.innerText = `총액: ${totalAmount.toLocaleString()} 원`;
   }
 
-  // 일정 등록 및 수정 저장 (시간에 맞춰 자동 정렬되는 orderValue 부여)
+  // 3. 수정 및 등록 핸들러 연동
   document.getElementById('submitScheduleBtn').addEventListener('click', async () => {
-      const btn = document.getElementById('submitScheduleBtn');
-      const dateVal = document.getElementById('date').value;
       const timeVal = document.getElementById('time').value;
-      const titleVal = document.getElementById('title').value;
-      
-      if (!titleVal) { alert("일정 내용을 입력해 주세요."); return; }
+      const scheduleName = document.getElementById('scheduleName').value;
+      if (!scheduleName) { alert("일정 명은 필수 항목입니다."); return; }
 
-      btn.disabled = true;
-      btn.innerText = "저장 중...";
-
-      // 시간에 맞춰 자동 정렬되도록 숫자로 변환 (예: "14:30" -> 143000)
-      const baseOrderValue = parseInt(timeVal.replace(':', '')) * 100;
-
+      const baseOrder = parseInt(timeVal.replace(':', '')) * 100;
       const payload = {
-          date: dateVal,
+          date: document.getElementById('date').value,
           time: timeVal,
           category: document.getElementById('category').value,
-          title: titleVal,
+          scheduleName: scheduleName,
           location: document.getElementById('location').value,
+          title: document.getElementById('title').value,
           cost: Number(document.getElementById('cost').value) || 0,
-          addedBy: document.getElementById('addedBy').value,
-          orderValue: baseOrderValue 
+          addedBy: document.getElementById('addedBy').value
       };
 
-      try {
-          if (editingScheduleId) {
-              await updateDoc(doc(db, "schedules", editingScheduleId), payload);
-          } else {
-              await addDoc(collection(db, "schedules"), payload);
-          }
-          window.cancelEdit();
-      } catch (e) {
-          alert("저장 실패");
-      } finally {
-          btn.disabled = false;
+      if (!editingScheduleId) payload.orderValue = baseOrder;
+
+      if (editingScheduleId) {
+          await updateDoc(doc(db, "schedules", editingScheduleId), payload);
+      } else {
+          await addDoc(collection(db, "schedules"), payload);
       }
+      cancelEdit();
   });
 
-  // 수정 모드 진입
   window.editSchedule = function(id) {
       const item = allSchedules.find(s => s.id === id);
       if(!item) return;
-
       editingScheduleId = id;
       document.getElementById('date').value = item.date;
       document.getElementById('time').value = item.time;
       document.getElementById('category').value = item.category;
-      document.getElementById('title').value = item.title;
-      document.getElementById('location').value = item.location;
-      document.getElementById('cost').value = item.cost;
+      document.getElementById('scheduleName').value = item.scheduleName || '';
+      document.getElementById('location').value = item.location || '';
+      document.getElementById('title').value = item.title || '';
+      document.getElementById('cost').value = item.cost || '';
       document.getElementById('addedBy').value = item.addedBy;
 
-      const btn = document.getElementById('submitScheduleBtn');
-      btn.innerText = "일정 수정 완료";
-      btn.classList.add('btn-update');
-      
+      document.getElementById('submitScheduleBtn').innerText = "일정 수정 완료";
+      document.getElementById('submitScheduleBtn').classList.add('btn-update');
       document.getElementById('formTitleText').innerText = "일정 수정하기";
       document.getElementById('cancelEditBtn').style.display = 'inline-block';
-      
       window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // 수정 취소
   window.cancelEdit = function() {
       editingScheduleId = null;
       document.getElementById('scheduleForm').reset();
-      
-      const btn = document.getElementById('submitScheduleBtn');
-      btn.innerText = "일정 등록하기 (시간에 맞춰 자동 정렬)";
-      btn.classList.remove('btn-update');
-      
+      document.getElementById('submitScheduleBtn').innerText = "일정 등록하기 (시간 순 자동 정렬)";
+      document.getElementById('submitScheduleBtn').classList.remove('btn-update');
       document.getElementById('formTitleText').innerText = "새로운 일정 추가";
       document.getElementById('cancelEditBtn').style.display = 'none';
   };
 
-  /* =======================================
-     3. 드래그 앤 드롭 순서 변경 로직
-  ======================================= */
-  const scheduleContainer = document.getElementById('scheduleContainer');
-  let draggedElement = null;
-
-  scheduleContainer.addEventListener('dragstart', (e) => {
-      const card = e.target.closest('.schedule-card');
-      if (!card) return;
-      draggedElement = card;
-      e.dataTransfer.effectAllowed = 'move';
-      card.classList.add('dragging');
-  });
-
-  scheduleContainer.addEventListener('dragend', (e) => {
-      if (draggedElement) draggedElement.classList.remove('dragging');
-      draggedElement = null;
-      document.querySelectorAll('.schedule-card').forEach(c => c.classList.remove('drag-over', 'drag-over-bottom'));
-  });
-
-  scheduleContainer.addEventListener('dragover', (e) => {
+  /* 드래그 앤 드롭 순서 변경 바인딩 */
+  const sc = document.getElementById('scheduleContainer');
+  let dragged = null;
+  sc.addEventListener('dragstart', e => { dragged = e.target.closest('.schedule-card'); dragged.classList.add('dragging'); });
+  sc.addEventListener('dragend', () => { if(dragged) dragged.classList.remove('dragging'); dragged = null; document.querySelectorAll('.schedule-card').forEach(c => c.classList.remove('drag-over', 'drag-over-bottom')); });
+  sc.addEventListener('dragover', e => {
       e.preventDefault();
       const card = e.target.closest('.schedule-card');
-      if (!card || card === draggedElement) return;
-
-      const rect = card.getBoundingClientRect();
-      const midY = rect.top + rect.height / 2;
+      if(!card || card === dragged) return;
+      const mY = card.getBoundingClientRect().top + card.getBoundingClientRect().height/2;
+      card.classList.toggle('drag-over', e.clientY < mY);
+      card.classList.toggle('drag-over-bottom', e.clientY >= mY);
+  });
+  sc.addEventListener('drop', async e => {
+      e.preventDefault();
+      const target = e.target.closest('.schedule-card');
+      if(!target || target === dragged) return;
+      const list = [...allSchedules].filter(s => currentFilterDate === 'all' ? true : s.date === currentFilterDate).sort((a,b)=> (a.orderValue||0)-(b.orderValue||0));
+      const tIdx = list.findIndex(s => s.id === target.dataset.id);
+      const above = e.clientY < (target.getBoundingClientRect().top + target.getBoundingClientRect().height/2);
       
-      if (e.clientY < midY) {
-          card.classList.add('drag-over');
-          card.classList.remove('drag-over-bottom');
-      } else {
-          card.classList.add('drag-over-bottom');
-          card.classList.remove('drag-over');
-      }
+      let p = above ? list[tIdx-1] : target, n = above ? target : list[tIdx+1];
+      if(p && p.id === dragged.dataset.id) p = list[tIdx-2];
+      if(n && n.id === dragged.dataset.id) n = list[tIdx+2];
+
+      let nv = p && n ? (p.orderValue + n.orderValue)/2 : (p ? p.orderValue + 100 : (n ? n.orderValue - 100 : 0));
+      await updateDoc(doc(db, "schedules", dragged.dataset.id), { orderValue: nv, date: target.dataset.date || list[tIdx].date });
   });
 
-  scheduleContainer.addEventListener('dragleave', (e) => {
-      const card = e.target.closest('.schedule-card');
-      if (card) card.classList.remove('drag-over', 'drag-over-bottom');
-  });
-
-  scheduleContainer.addEventListener('drop', async (e) => {
-      e.preventDefault();
-      const targetCard = e.target.closest('.schedule-card');
-      if (!targetCard || targetCard === draggedElement) return;
-
-      targetCard.classList.remove('drag-over', 'drag-over-bottom');
-
-      const draggedId = draggedElement.dataset.id;
-      const targetId = targetCard.dataset.id;
-
-      // 현재 화면에 보여지는 목록만 추출
-      const sortedList = [...allSchedules].filter(s => currentFilterDate === 'all' ? true : s.date === currentFilterDate)
-                         .sort((a,b) => {
-                             if (a.date !== b.date) return a.date.localeCompare(b.date);
-                             return (a.orderValue || 0) - (b.orderValue || 0);
-                         });
-
-      const draggedItem = sortedList.find(s => s.id === draggedId);
-      const targetItem = sortedList.find(s => s.id === targetId);
-      const targetIndex = sortedList.findIndex(s => s.id === targetId);
-
-      const rect = targetCard.getBoundingClientRect();
-      const midY = rect.top + rect.height / 2;
-      const dropAbove = e.clientY < midY;
-
-      let prev, next;
-      if (dropAbove) {
-          prev = targetIndex > 0 ? sortedList[targetIndex - 1] : null;
-          next = targetItem;
-          if (prev && prev.id === draggedId) prev = targetIndex > 1 ? sortedList[targetIndex - 2] : null;
-      } else {
-          prev = targetItem;
-          next = targetIndex < sortedList.length - 1 ? sortedList[targetIndex + 1] : null;
-          if (next && next.id === draggedId) next = targetIndex < sortedList.length - 2 ? sortedList[targetIndex + 2] : null;
-      }
-
-      // 새 orderValue 중간값 계산
-      let newOrderValue;
-      if (!prev) newOrderValue = (next.orderValue || 0) - 100;
-      else if (!next) newOrderValue = (prev.orderValue || 0) + 100;
-      else newOrderValue = ((prev.orderValue || 0) + (next.orderValue || 0)) / 2;
-
-      // 만약 '전체 일정' 보기에서 다른 날짜 사이에 드롭했다면 날짜도 변경
-      const updatedDate = targetItem.date;
-
-      await updateDoc(doc(db, "schedules", draggedId), {
-          orderValue: newOrderValue,
-          date: updatedDate
-      });
-  });
-
-  /* =======================================
-     4. 비행 정보 기능 (항공권 등록 및 조회)
-  ======================================= */
-  const qFlights = query(collection(db, "flights"), orderBy("flightDate"));
-  
-  onSnapshot(qFlights, (snapshot) => {
-      const flightContainer = document.getElementById('flightContainer');
+  /* 비행 정보 핸들러 (2. 시간 및 비고 확장 내역 적용) */
+  onSnapshot(query(collection(db, "flights"), orderBy("flightDate")), (snap) => {
+      const container = document.getElementById('flightContainer');
       let html = "";
-
-      if (snapshot.empty) {
-          flightContainer.innerHTML = '<div class="empty-state">등록된 비행 정보가 없습니다.</div>';
-          return;
-      }
-
-      snapshot.forEach((doc) => {
-          const data = doc.data();
-          const badgeColor = data.flightType === '출발편' ? '#3498db' : '#e67e22';
-
+      if(snap.empty) { container.innerHTML = '<div class="empty-state">등록된 비행 정보가 없습니다.</div>'; return; }
+      snap.forEach(d => {
+          const data = d.data();
+          const bc = data.flightType === '출발편' ? '#3498db' : '#e67e22';
           html += `
-            <div class="schedule-card" style="border-left-color: ${badgeColor}; padding-right:50px;">
-                <div class="action-btns">
-                    <button class="btn-delete" onclick="deleteItem('flights', '${doc.id}')" title="삭제">🗑️</button>
-                </div>
+            <div class="schedule-card" style="border-left-color: ${bc}; padding-right:50px;">
+                <div class="action-btns"><button class="btn-delete" onclick="deleteItem('flights', '${d.id}')">🗑️</button></div>
                 <div class="content-box">
-                    <div class="content-header">
-                        <div>
-                            <span class="category-badge" style="background:${badgeColor}; color:white;">
-                                ${data.flightType}
-                            </span>
-                            <div class="title">${data.airline}</div>
-                        </div>
-                        <div style="text-align:right; font-size:14px; color:#2c3e50; font-weight:bold;">
-                            ${data.flightDate}
-                        </div>
+                    <div class="card-top-row">
+                        <span class="category-badge" style="background:${bc}; color:white;">${data.flightType}</span>
+                        <span class="schedule-title-text">${data.airline}</span>
                     </div>
-                    <div class="location" style="font-size:15px; margin-top:8px;">🛫 여정: ${data.flightRoute}</div>
+                    <div class="flight-time-info">⏰ ${data.flightTime || '시간 미지정'} (${data.flightDate})</div>
+                    <div class="card-location-text" style="margin-top:4px;">📍 여정: ${data.flightRoute}</div>
+                    ${data.flightNote ? `<div class="flight-note-text">📝 비고: ${data.flightNote}</div>` : ''}
                 </div>
-            </div>
-          `;
+            </div>`;
       });
-      flightContainer.innerHTML = html;
+      container.innerHTML = html;
   });
 
   document.getElementById('submitFlightBtn').addEventListener('click', async () => {
       const btn = document.getElementById('submitFlightBtn');
-      const flightType = document.getElementById('flightType').value;
-      const flightDate = document.getElementById('flightDate').value;
-      const airline = document.getElementById('airline').value;
-      const flightRoute = document.getElementById('flightRoute').value;
-
-      if(!flightDate || !airline || !flightRoute) {
-          alert("모든 항목을 입력해 주세요."); return;
-      }
-
-      btn.innerText = "저장 중...";
       btn.disabled = true;
-
       try {
-          await addDoc(collection(db, "flights"), { flightType, flightDate, airline, flightRoute });
+          await addDoc(collection(db, "flights"), {
+              flightType: document.getElementById('flightType').value,
+              flightDate: document.getElementById('flightDate').value,
+              airline: document.getElementById('airline').value,
+              flightTime: document.getElementById('flightTime').value,
+              flightRoute: document.getElementById('flightRoute').value,
+              flightNote: document.getElementById('flightNote').value
+          });
           document.getElementById('airline').value = '';
+          document.getElementById('flightTime').value = '';
           document.getElementById('flightRoute').value = '';
-      } catch (e) {
-          alert("비행 정보 저장 실패");
-      } finally {
-          btn.innerText = "비행 정보 저장하기";
-          btn.disabled = false;
-      }
+          document.getElementById('flightNote').value = '';
+      } catch(e) { alert("비행 정보 저장 실패"); }
+      finally { btn.disabled = false; }
   });
-
 </script>
 </body>
 </html>
