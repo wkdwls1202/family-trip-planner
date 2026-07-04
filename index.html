@@ -17,6 +17,7 @@
             background-color: #f4f7f6;
             color: #333;
             line-height: 1.6;
+            /* 모바일 기본 여백 */
             padding: 10px;
         }
 
@@ -24,6 +25,7 @@
             max-width: 800px;
             margin: 0 auto;
             background: #fff;
+            /* 모바일 기본 패딩 */
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
@@ -34,7 +36,7 @@
             text-align: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            padding-top: 35px; /* 초기화 버튼을 위한 상단 여백 */
+            padding-top: 35px;
         }
 
         header h1 {
@@ -43,7 +45,6 @@
             word-break: keep-all;
         }
 
-        /* 1. 새로운 여행으로 초기화 버튼 (우측 상단 고정) */
         .reset-app-btn {
             position: absolute;
             top: 15px;
@@ -99,7 +100,9 @@
             font-size: 13px;
         }
 
-        /* 입력 폼 영역 (5. 모바일 해상도 최적화) */
+        /* ==========================================
+           [모바일 우선 기본 레이아웃] 스마트폰 화면 기준
+           ========================================== */
         .form-section {
             background: #fafafa;
             padding: 15px;
@@ -128,7 +131,7 @@
             display: none;
         }
 
-        /* 기본적으로 1줄에 1개씩 떨어지도록 설정 (모바일 최적화) */
+        /* 폼 요소를 세로로 배치 (모바일) */
         .form-row {
             display: flex;
             flex-direction: column;
@@ -154,8 +157,7 @@
             border-radius: 5px;
             font-size: 14px;
             background-color: #fff;
-            width: 100%; /* 부모 너비를 넘지 않도록 차단 */
-            max-width: 100%;
+            width: 100%;
         }
 
         .submit-btn {
@@ -172,7 +174,6 @@
         .submit-btn:disabled { background-color: #95a5a6; }
         .btn-update { background-color: #27ae60 !important; }
 
-        /* 날짜별 서브 탭 */
         .date-tabs {
             display: flex;
             overflow-x: auto;
@@ -213,7 +214,7 @@
             border-radius: 12px;
         }
 
-        /* 4. 카드 배치 구조 업데이트 및 6. 버튼 겹침 방지 */
+        /* 카드 기본 레이아웃 */
         .schedule-card {
             display: flex;
             background: #fff;
@@ -221,7 +222,7 @@
             border-left: 5px solid #bdc3c7;
             border-radius: 6px;
             padding: 12px;
-            padding-right: 75px; /* 우측 수정/삭제 버튼 공간 분리 */
+            padding-right: 75px; 
             margin-bottom: 12px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
             position: relative;
@@ -246,14 +247,13 @@
         }
         .time-box .time { font-size: 14px; color: #2c3e50; font-weight: bold; }
 
-        .content-box { flex: 1; min-width: 0; } /* 텍스트 넘침 방지 */
+        .content-box { flex: 1; min-width: 0; }
         
-        /* 배치 변경 구조 */
         .card-top-row {
             display: flex;
             align-items: center;
             gap: 8px;
-            flex-wrap: wrap; /* 모바일에서 넘치면 아래로 내림 */
+            flex-wrap: wrap; 
             margin-bottom: 4px;
         }
         .schedule-title-text {
@@ -282,7 +282,6 @@
         .cost { color: #e74c3c; font-weight: bold; }
         .added-by { color: #95a5a6; }
 
-        /* 비행 카드 확장 배치 */
         .flight-time-info {
             font-size: 13px;
             color: #2980b9;
@@ -324,22 +323,49 @@
 
         .hidden { display: none !important; }
 
-        /* 5. 태블릿 및 PC 해상도용 확장 레이아웃 (가로 배열 허용) */
-        @media (min-width: 600px) {
+        /* ==========================================
+           [PC 및 태블릿 해상도용 확장 레이아웃] 최초 뷰 복원
+           ========================================== */
+        @media (min-width: 768px) {
             body { padding: 20px; }
             .container { padding: 30px; }
             header h1 { font-size: 28px; }
-            .trip-info { flex-direction: row; justify-content: space-between; font-size: 14px; }
-            .form-row { flex-direction: row; }
-            .form-section h2 { font-size: 18px; }
-            .schedule-list-section h2 { font-size: 18px; }
+            
+            /* 탭과 기본 정보 여백 복원 */
+            .trip-info { flex-direction: row; justify-content: space-between; font-size: 15px; padding: 15px 20px; }
+            .main-tab-btn { font-size: 16px; padding: 12px; }
+
+            /* 입력 폼 영역 가로 배치로 복원 (핵심) */
+            .form-section { padding: 20px; }
+            .form-section h2 { font-size: 18px; margin-bottom: 15px; }
+            .form-row { 
+                flex-direction: row; /* 세로 -> 가로 변경 */
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+            .form-group { flex: 1; } /* 남은 가로 공간 균등 분배 */
+            
+            /* 리스트 영역 폰트 및 여백 복원 */
+            .schedule-list-section h2 { font-size: 20px; margin-bottom: 15px; }
+            .total-cost { font-size: 16px; padding: 4px 10px; }
+            .date-btn { font-size: 14px; padding: 8px 16px; }
+            
+            /* 카드의 상세 정보는 최신 구조를 유지하되 크기만 살짝 확장 */
+            .schedule-card { padding: 15px; padding-right: 80px; }
+            .time-box { min-width: 60px; }
+            .time-box .time { font-size: 16px; }
+            .schedule-title-text { font-size: 16px; }
+            .card-location-text { font-size: 13px; }
+            .card-desc-text { font-size: 14px; }
+            .card-bottom-row { font-size: 13px; }
+            .action-btns button { font-size: 16px; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- 1. 새로운 여행으로 초기화 버튼 -->
+    <!-- 새로운 여행으로 초기화 버튼 -->
     <button class="reset-app-btn" onclick="resetWholeApp()">🔄 여행 초기화</button>
 
     <!-- [화면 1] 초기 여행 설정 화면 -->
@@ -423,7 +449,6 @@
                             <input type="text" id="airline" placeholder="예: 대한항공 KE123" required>
                         </div>
                         <div class="form-group">
-                            <!-- 2. 비행 시간 추가 -->
                             <label for="flightTime">비행 시간/출발 시각</label>
                             <input type="text" id="flightTime" placeholder="예: 20:00 출발 -> 06:50 도착">
                         </div>
@@ -434,7 +459,6 @@
                             <input type="text" id="flightRoute" placeholder="예: 인천(ICN) -> 브리즈번(BNE)" required>
                         </div>
                     </div>
-                    <!-- 2. 비행 비고 입력 추가 -->
                     <div class="form-row">
                         <div class="form-group">
                             <label for="flightNote">비행 비고 사항</label>
@@ -483,7 +507,6 @@
                     </div>
                     
                     <div class="form-row">
-                        <!-- 3. 일정 명 입력 칸 추가 -->
                         <div class="form-group">
                             <label for="scheduleName">일정 명</label>
                             <input type="text" id="scheduleName" placeholder="예: 코알라 보호구역 관람" required>
@@ -511,7 +534,6 @@
                             <select id="addedBy"></select>
                         </div>
                     </div>
-                    <!-- 4. 정렬 가이드 명시 -->
                     <button type="button" id="submitScheduleBtn" class="submit-btn">일정 등록하기 (시간 순 자동 정렬)</button>
                 </form>
             </div>
@@ -561,11 +583,9 @@
       'etc': { class: 'cat-etc', bg: '#ecf0f1', color: '#34495e', icon: '📌', text: '기타' }
   };
 
-  // 1. 초기화 버튼 기능 구현
   window.resetWholeApp = async function() {
       if(confirm("⚠️ 주의: 저장된 모든 여행 일정, 비행 정보 및 메인 세팅 데이터가 완전히 초기화됩니다. 계속하시겠습니까?")) {
           try {
-              // 메인 설정 정보 삭제
               await deleteDoc(doc(db, "settings", "tripInfo"));
               alert("초기화되었습니다. 새로운 여행 설정을 시작하세요.");
               location.reload();
@@ -589,7 +609,6 @@
       return arr;
   }
 
-  // 데이터 감시 및 화면 제어
   onSnapshot(doc(db, "settings", "tripInfo"), (docSnap) => {
       const setupScreen = document.getElementById('setupScreen');
       const appScreen = document.getElementById('appScreen');
@@ -658,7 +677,6 @@
       if(confirm('삭제하시겠습니까?')) await deleteDoc(doc(db, col, id));
   };
 
-  /* 플래너 스케줄 관련 로직 */
   onSnapshot(query(collection(db, "schedules")), (snapshot) => {
       allSchedules = [];
       snapshot.forEach(d => allSchedules.push({ id: d.id, ...d.data() }));
@@ -672,7 +690,6 @@
 
       const filtered = currentFilterDate === 'all' ? allSchedules : allSchedules.filter(s => s.date === currentFilterDate);
 
-      // 4. 시간에 따른 정렬 규칙 적용 (시간 -> orderValue 가중치순)
       filtered.sort((a, b) => {
           if (a.date !== b.date) return a.date.localeCompare(b.date);
           if (a.time !== b.time) return a.time.localeCompare(b.time);
@@ -691,7 +708,6 @@
           const style = categoryStyles[data.category] || categoryStyles['etc'];
           const dateFormatted = data.date.substring(5).replace('-', '/');
 
-          // 4. 카드 배치 요구사항 레이아웃 설계 반영
           html += `
             <div class="schedule-card ${style.class}" draggable="true" data-id="${data.id}">
                 <div class="action-btns">
@@ -721,7 +737,6 @@
       totalCostElement.innerText = `총액: ${totalAmount.toLocaleString()} 원`;
   }
 
-  // 3. 수정 및 등록 핸들러 연동
   document.getElementById('submitScheduleBtn').addEventListener('click', async () => {
       const timeVal = document.getElementById('time').value;
       const scheduleName = document.getElementById('scheduleName').value;
@@ -778,7 +793,6 @@
       document.getElementById('cancelEditBtn').style.display = 'none';
   };
 
-  /* 드래그 앤 드롭 순서 변경 바인딩 */
   const sc = document.getElementById('scheduleContainer');
   let dragged = null;
   sc.addEventListener('dragstart', e => { dragged = e.target.closest('.schedule-card'); dragged.classList.add('dragging'); });
@@ -807,7 +821,6 @@
       await updateDoc(doc(db, "schedules", dragged.dataset.id), { orderValue: nv, date: target.dataset.date || list[tIdx].date });
   });
 
-  /* 비행 정보 핸들러 (2. 시간 및 비고 확장 내역 적용) */
   onSnapshot(query(collection(db, "flights"), orderBy("flightDate")), (snap) => {
       const container = document.getElementById('flightContainer');
       let html = "";
