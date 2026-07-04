@@ -339,11 +339,11 @@
             .form-section { padding: 20px; }
             .form-section h2 { font-size: 18px; margin-bottom: 15px; }
             .form-row { 
-                flex-direction: row; /* 세로 -> 가로 변경 */
+                flex-direction: row; 
                 gap: 15px;
                 margin-bottom: 15px;
             }
-            .form-group { flex: 1; } /* 남은 가로 공간 균등 분배 */
+            .form-group { flex: 1; }
             
             /* 리스트 영역 폰트 및 여백 복원 */
             .schedule-list-section h2 { font-size: 20px; margin-bottom: 15px; }
@@ -428,7 +428,10 @@
         <!-- 비행 정보 탭 -->
         <div id="flightTab">
             <div class="form-section">
-                <h2>항공권 정보 등록</h2>
+                <h2>
+                    <span id="flightFormTitleText">항공권 정보 등록</span>
+                    <button id="cancelFlightEditBtn" class="cancel-edit-btn" onclick="cancelFlightEdit()">수정 취소</button>
+                </h2>
                 <form id="flightForm">
                     <div class="form-row">
                         <div class="form-group">
@@ -572,8 +575,10 @@
   const db = getFirestore(app);
 
   let allSchedules = [];
+  let allFlights = [];
   let currentFilterDate = 'all';
   let editingScheduleId = null;
+  let editingFlightId = null;
 
   const categoryStyles = {
       'tour': { class: 'cat-tour', bg: '#d5f5e3', color: '#27ae60', icon: '🏞️', text: '관광지' },
@@ -677,6 +682,9 @@
       if(confirm('삭제하시겠습니까?')) await deleteDoc(doc(db, col, id));
   };
 
+  /* ========================================================
+     플래너 스케줄 관련 로직
+     ======================================================== */
   onSnapshot(query(collection(db, "schedules")), (snapshot) => {
       allSchedules = [];
       snapshot.forEach(d => allSchedules.push({ id: d.id, ...d.data() }));
@@ -738,6 +746,7 @@
   }
 
   document.getElementById('submitScheduleBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('submitScheduleBtn');
       const timeVal = document.getElementById('time').value;
       const scheduleName = document.getElementById('scheduleName').value;
       if (!scheduleName) { alert("일정 명은 필수 항목입니다."); return; }
@@ -756,12 +765,21 @@
 
       if (!editingScheduleId) payload.orderValue = baseOrder;
 
-      if (editingScheduleId) {
-          await updateDoc(doc(db, "schedules", editingScheduleId), payload);
-      } else {
-          await addDoc(collection(db, "schedules"), payload);
+      btn.disabled = true;
+      btn.innerText = "저장 중...";
+
+      try {
+          if (editingScheduleId) {
+              await updateDoc(doc(db, "schedules", editingScheduleId), payload);
+          } else {
+              await addDoc(collection(db, "schedules"), payload);
+          }
+          cancelEdit();
+      } catch(e) {
+          alert("일정 저장 실패");
+      } finally {
+          btn.disabled = false;
       }
-      cancelEdit();
   });
 
   window.editSchedule = function(id) {
@@ -821,16 +839,27 @@
       await updateDoc(doc(db, "schedules", dragged.dataset.id), { orderValue: nv, date: target.dataset.date || list[tIdx].date });
   });
 
+  /* ========================================================
+     비행 정보 관련 로직 (수정 기능 추가)
+     ======================================================== */
   onSnapshot(query(collection(db, "flights"), orderBy("flightDate")), (snap) => {
       const container = document.getElementById('flightContainer');
       let html = "";
+      allFlights = [];
+      
       if(snap.empty) { container.innerHTML = '<div class="empty-state">등록된 비행 정보가 없습니다.</div>'; return; }
+      
       snap.forEach(d => {
           const data = d.data();
+          allFlights.push({ id: d.id, ...data });
           const bc = data.flightType === '출발편' ? '#3498db' : '#e67e22';
+          
           html += `
-            <div class="schedule-card" style="border-left-color: ${bc}; padding-right:50px;">
-                <div class="action-btns"><button class="btn-delete" onclick="deleteItem('flights', '${d.id}')">🗑️</button></div>
+            <div class="schedule-card" style="border-left-color: ${bc}; padding-right:80px;">
+                <div class="action-btns">
+                    <button class="btn-edit" onclick="editFlight('${d.id}')">✏️</button>
+                    <button class="btn-delete" onclick="deleteItem('flights', '${d.id}')">🗑️</button>
+                </div>
                 <div class="content-box">
                     <div class="card-top-row">
                         <span class="category-badge" style="background:${bc}; color:white;">${data.flightType}</span>
@@ -847,23 +876,63 @@
 
   document.getElementById('submitFlightBtn').addEventListener('click', async () => {
       const btn = document.getElementById('submitFlightBtn');
+      const payload = {
+          flightType: document.getElementById('flightType').value,
+          flightDate: document.getElementById('flightDate').value,
+          airline: document.getElementById('airline').value,
+          flightTime: document.getElementById('flightTime').value,
+          flightRoute: document.getElementById('flightRoute').value,
+          flightNote: document.getElementById('flightNote').value
+      };
+
+      if(!payload.flightDate || !payload.airline || !payload.flightRoute) {
+          alert("필수 항목을 모두 입력해 주세요."); return;
+      }
+
       btn.disabled = true;
+      btn.innerText = "저장 중...";
+
       try {
-          await addDoc(collection(db, "flights"), {
-              flightType: document.getElementById('flightType').value,
-              flightDate: document.getElementById('flightDate').value,
-              airline: document.getElementById('airline').value,
-              flightTime: document.getElementById('flightTime').value,
-              flightRoute: document.getElementById('flightRoute').value,
-              flightNote: document.getElementById('flightNote').value
-          });
-          document.getElementById('airline').value = '';
-          document.getElementById('flightTime').value = '';
-          document.getElementById('flightRoute').value = '';
-          document.getElementById('flightNote').value = '';
-      } catch(e) { alert("비행 정보 저장 실패"); }
-      finally { btn.disabled = false; }
+          if (editingFlightId) {
+              await updateDoc(doc(db, "flights", editingFlightId), payload);
+          } else {
+              await addDoc(collection(db, "flights"), payload);
+          }
+          cancelFlightEdit();
+      } catch(e) {
+          alert("비행 정보 저장 실패");
+      } finally {
+          btn.disabled = false;
+      }
   });
+
+  window.editFlight = function(id) {
+      const item = allFlights.find(f => f.id === id);
+      if(!item) return;
+      
+      editingFlightId = id;
+      document.getElementById('flightType').value = item.flightType || '출발편';
+      document.getElementById('flightDate').value = item.flightDate || '';
+      document.getElementById('airline').value = item.airline || '';
+      document.getElementById('flightTime').value = item.flightTime || '';
+      document.getElementById('flightRoute').value = item.flightRoute || '';
+      document.getElementById('flightNote').value = item.flightNote || '';
+
+      document.getElementById('submitFlightBtn').innerText = "비행 정보 수정 완료";
+      document.getElementById('submitFlightBtn').classList.add('btn-update');
+      document.getElementById('flightFormTitleText').innerText = "비행 정보 수정하기";
+      document.getElementById('cancelFlightEditBtn').style.display = 'inline-block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  window.cancelFlightEdit = function() {
+      editingFlightId = null;
+      document.getElementById('flightForm').reset();
+      document.getElementById('submitFlightBtn').innerText = "비행 정보 저장하기";
+      document.getElementById('submitFlightBtn').classList.remove('btn-update');
+      document.getElementById('flightFormTitleText').innerText = "항공권 정보 등록";
+      document.getElementById('cancelFlightEditBtn').style.display = 'none';
+  };
 </script>
 </body>
 </html>
