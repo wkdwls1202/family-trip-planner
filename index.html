@@ -298,14 +298,20 @@
         .card-location-text i { color: #e74c3c; margin-right: 4px; }
         
         .acc-url {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            width: 100%;
         }
+
         .acc-url a { 
             color: #3498db; 
             text-decoration: none; 
             font-size: 12px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            display: block;
+            min-width: 0;
         }
         
         .card-desc-text { 
