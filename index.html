@@ -9,115 +9,380 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; }
-        body { background-color: #f4f7f6; color: #333; line-height: 1.6; padding: 10px; }
+        /* 초기화 및 기본 스타일 */
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; 
+        }
+        
+        body { 
+            background-color: #f4f7f6; 
+            color: #333; 
+            line-height: 1.6; 
+            padding: 10px; 
+        }
+        
         .container {
-            max-width: 800px; margin: 0 auto; background: #fff; padding: 20px;
-            border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); position: relative;
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: #fff; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            position: relative;
         }
 
-        header { text-align: center; margin-bottom: 20px; padding-bottom: 15px; padding-top: 35px; }
-        header h1 { color: #2c3e50; font-size: 24px; word-break: keep-all; }
+        header { 
+            text-align: center; 
+            margin-bottom: 20px; 
+            padding-bottom: 15px; 
+            padding-top: 35px; 
+        }
+        
+        header h1 { 
+            color: #2c3e50; 
+            font-size: 24px; 
+            word-break: keep-all; 
+        }
 
-        .top-right-btns { position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; z-index: 10; }
-        .app-action-btn { border: none; padding: 6px 10px; font-size: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; color: white; }
+        .top-right-btns { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            display: flex; 
+            gap: 8px; 
+            z-index: 10; 
+        }
+        
+        .app-action-btn {
+            border: none; 
+            padding: 6px 10px; 
+            font-size: 12px; 
+            font-weight: bold; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            color: white; 
+            transition: background 0.2s;
+        }
+        
         .btn-edit-setting { background-color: #7f8c8d; }
+        .btn-edit-setting:hover { background-color: #34495e; }
         .btn-reset { background-color: #e74c3c; }
+        .btn-reset:hover { background-color: #c0392b; }
 
-        /* 탭 네비게이션 (스크롤 허용) */
+        /* 탭 네비게이션 */
         .tabs-container {
-            display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 2px solid #e0e6ed; padding-bottom: 10px;
-            overflow-x: auto; white-space: nowrap;
+            display: flex; 
+            gap: 4px; 
+            margin-bottom: 20px; 
+            border-bottom: 2px solid #e0e6ed; 
+            padding-bottom: 10px;
+            overflow-x: auto; 
+            white-space: nowrap;
         }
+        
         .main-tab-btn {
-            flex: 1; min-width: 70px; padding: 10px 5px; background: #f1f2f6; border: none; border-radius: 8px;
-            font-size: 13px; font-weight: bold; color: #7f8c8d; cursor: pointer; text-align: center;
+            flex: 1; 
+            min-width: 70px; 
+            padding: 10px 5px; 
+            background: #f1f2f6; 
+            border: none; 
+            border-radius: 8px;
+            font-size: 13px; 
+            font-weight: bold; 
+            color: #7f8c8d; 
+            cursor: pointer; 
+            text-align: center;
         }
-        .main-tab-btn.active { background: #3498db; color: white; }
+        
+        .main-tab-btn.active { 
+            background: #3498db; 
+            color: white; 
+        }
+        
         .main-tab-btn i { margin-right: 4px; }
 
         .trip-info {
-            display: flex; flex-direction: column; gap: 5px; background: #e8f4f8; padding: 12px 15px; border-radius: 8px; margin-bottom: 20px; font-size: 13px;
+            display: flex; 
+            flex-direction: column; 
+            gap: 5px; 
+            background: #e8f4f8; 
+            padding: 12px 15px; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            font-size: 13px;
         }
 
-        /* 폼 섹션 (토글 가능) */
-        .form-section { background: #fafafa; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 20px; overflow: hidden; }
-        .form-header-toggle {
-            padding: 15px; background: #fdfdfd; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s;
+        /* 폼 섹션 공통 및 토글 기능 */
+        .form-section {
+            background: #fafafa; 
+            border-radius: 8px; 
+            border: 1px solid #ddd; 
+            margin-bottom: 20px; 
+            overflow: hidden;
         }
+        
+        .form-header-toggle {
+            padding: 15px; 
+            background: #fdfdfd; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid transparent; 
+            transition: background 0.2s;
+        }
+        
         .form-header-toggle:hover { background: #f1f2f6; }
-        .form-header-toggle h2 { font-size: 16px; color: #34495e; margin: 0; display: flex; align-items: center; gap: 8px; }
+        
+        .form-header-toggle h2 { 
+            font-size: 16px; 
+            color: #34495e; 
+            margin: 0; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        
         .toggle-icon { transition: transform 0.3s; color: #7f8c8d; }
         
-        .form-body { padding: 15px; border-top: 1px solid #ddd; display: block; }
+        .form-body { 
+            padding: 15px; 
+            border-top: 1px solid #ddd; 
+            display: block; 
+        }
+        
         .form-body.collapsed { display: none !important; }
 
-        .cancel-edit-btn { font-size: 12px; background: #e74c3c; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; display: none; }
-        
-        .form-row { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
-        .form-group { display: flex; flex-direction: column; }
-        .form-group label { font-size: 12px; color: #555; margin-bottom: 4px; font-weight: bold; }
-        .form-group input, .form-group select, .form-group textarea { padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; width: 100%; }
+        .cancel-edit-btn {
+            font-size: 12px; 
+            background: #e74c3c; 
+            color: white; 
+            border: none; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            display: none;
+        }
 
-        .submit-btn { width: 100%; padding: 12px; background-color: #3498db; color: white; border: none; border-radius: 5px; font-size: 15px; font-weight: bold; cursor: pointer; }
+        .form-row { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            margin-bottom: 12px; 
+        }
+        
+        .form-group { display: flex; flex-direction: column; }
+        
+        .form-group label { 
+            font-size: 12px; 
+            color: #555; 
+            margin-bottom: 4px; 
+            font-weight: bold; 
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            font-size: 14px; 
+            width: 100%;
+        }
+
+        .submit-btn {
+            width: 100%; 
+            padding: 12px; 
+            background-color: #3498db; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            font-size: 15px; 
+            font-weight: bold; 
+            cursor: pointer;
+        }
+        
         .btn-update { background-color: #27ae60 !important; }
         .btn-gray { background-color: #95a5a6 !important; }
 
-        /* 서브 날짜 탭 */
-        .date-tabs { display: flex; overflow-x: auto; gap: 6px; margin-bottom: 15px; padding-bottom: 5px; }
-        .date-btn { padding: 6px 12px; background: #fff; border: 1px solid #bdc3c7; border-radius: 20px; font-size: 13px; cursor: pointer; white-space: nowrap; }
-        .date-btn.active { background: #2c3e50; color: white; border-color: #2c3e50; }
-
-        .schedule-list-section h2 { font-size: 16px; color: #2c3e50; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .total-cost { font-size: 13px; color: #e74c3c; font-weight: bold; background: #fadbd8; padding: 3px 8px; border-radius: 12px; }
-
-        /* 카드 UI */
-        .schedule-card {
-            display: flex; background: #fff; border: 1px solid #e0e6ed; border-left: 5px solid #bdc3c7; border-radius: 6px; padding: 12px; padding-right: 75px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); position: relative; cursor: grab;
+        /* 서브 탭 (날짜) */
+        .date-tabs { 
+            display: flex; 
+            overflow-x: auto; 
+            gap: 6px; 
+            margin-bottom: 15px; 
+            padding-bottom: 5px; 
         }
+        
+        .date-btn { 
+            padding: 6px 12px; 
+            background: #fff; 
+            border: 1px solid #bdc3c7; 
+            border-radius: 20px; 
+            font-size: 13px; 
+            cursor: pointer; 
+            white-space: nowrap; 
+        }
+        
+        .date-btn.active { 
+            background: #2c3e50; 
+            color: white; 
+            border-color: #2c3e50; 
+        }
+
+        .schedule-list-section h2 { 
+            font-size: 16px; 
+            color: #2c3e50; 
+            margin-bottom: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        
+        .total-cost { 
+            font-size: 13px; 
+            color: #e74c3c; 
+            font-weight: bold; 
+            background: #fadbd8; 
+            padding: 3px 8px; 
+            border-radius: 12px; 
+        }
+
+        /* 카드 UI 상세 구성 */
+        .schedule-card {
+            display: flex; 
+            background: #fff; 
+            border: 1px solid #e0e6ed; 
+            border-left: 5px solid #bdc3c7; 
+            border-radius: 6px; 
+            padding: 12px; 
+            padding-right: 75px; 
+            margin-bottom: 12px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+            position: relative; 
+            cursor: grab;
+        }
+        
         .cat-transport { border-left-color: #f39c12; }
         .cat-accomodation { border-left-color: #9b59b6; }
         .cat-food { border-left-color: #e74c3c; }
         .cat-tour { border-left-color: #2ecc71; }
         .cat-etc { border-left-color: #34495e; }
-        .cat-idea { border-left-color: #f1c40f; }
+        .cat-idea { border-left-color: #f1c40f; background-color: #fdfbf1; } 
 
-        .time-box { min-width: 55px; border-right: 1px dashed #ccc; padding-right: 10px; margin-right: 10px; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+        .time-box { 
+            min-width: 55px; 
+            border-right: 1px dashed #ccc; 
+            padding-right: 10px; 
+            margin-right: 10px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            text-align: center; 
+        }
+        
         .time-box .time { font-size: 14px; color: #2c3e50; font-weight: bold; }
         .content-box { flex: 1; min-width: 0; }
         
-        .card-top-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+        .card-top-row { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            flex-wrap: wrap; 
+            margin-bottom: 4px; 
+        }
+        
         .schedule-title-text { font-size: 15px; font-weight: bold; color: #2c3e50; }
         .card-location-text { font-size: 12px; color: #7f8c8d; }
         .card-location-text i { color: #e74c3c; margin-right: 4px; }
         
-        .acc-url a { word-break: break-all; color: #3498db; text-decoration: none; font-size: 12px; }
-        .card-desc-text { font-size: 13px; color: #555; margin-top: 4px; word-break: break-all; }
-        .card-bottom-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 12px; }
+        .acc-url a { 
+            word-break: break-all; 
+            color: #3498db; 
+            text-decoration: none; 
+            font-size: 12px; 
+        }
+        
+        .card-desc-text { 
+            font-size: 13px; 
+            color: #555; 
+            margin-top: 4px; 
+            word-break: break-all; 
+        }
+        
+        .card-bottom-row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-top: 8px; 
+            font-size: 12px; 
+        }
         
         .category-badge i { margin-right: 4px; }
         .cost { color: #e74c3c; font-weight: bold; }
         .added-by { color: #95a5a6; }
 
         .flight-time-info { font-size: 13px; color: #2980b9; font-weight: bold; margin-top: 2px; }
-        .flight-note-text { font-size: 12px; color: #7f8c8d; background: #f8f9fa; padding: 6px; border-radius: 4px; margin-top: 6px; }
+        .flight-note-text { 
+            font-size: 12px; 
+            color: #7f8c8d; 
+            background: #f8f9fa; 
+            padding: 6px; 
+            border-radius: 4px; 
+            margin-top: 6px; 
+        }
         
-        .action-btns { position: absolute; top: 12px; right: 12px; display: flex; gap: 12px; }
-        .action-btns button { background: none; border: none; cursor: pointer; font-size: 14px; color: #95a5a6; }
+        .action-btns { 
+            position: absolute; 
+            top: 12px; 
+            right: 12px; 
+            display: flex; 
+            gap: 12px; 
+        }
+        
+        .action-btns button { 
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            font-size: 14px; 
+            color: #95a5a6; 
+        }
+        
         .action-btns .btn-edit:hover { color: #3498db; }
         .action-btns .btn-delete:hover { color: #e74c3c; }
 
-        .adopt-btn { font-size: 11px; background: #f39c12; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+        .adopt-btn { 
+            font-size: 11px; 
+            background: #f39c12; 
+            color: white; 
+            border: none; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        }
+        
         .adopt-btn:hover { background: #e67e22; }
 
-        .empty-state { text-align: center; padding: 30px 10px; color: #95a5a6; font-size: 13px; border: 1px dashed #ccc; border-radius: 8px; }
+        .empty-state { 
+            text-align: center; 
+            padding: 30px 10px; 
+            color: #95a5a6; 
+            font-size: 13px; 
+            border: 1px dashed #ccc; 
+            border-radius: 8px; 
+        }
+        
         .hidden { display: none !important; }
 
         @media (min-width: 768px) {
-            body { padding: 20px; } .container { padding: 30px; } header h1 { font-size: 28px; }
+            body { padding: 20px; } 
+            .container { padding: 30px; } 
+            header h1 { font-size: 28px; }
             .trip-info { flex-direction: row; justify-content: space-between; font-size: 15px; padding: 15px 20px; }
             .main-tab-btn { font-size: 15px; padding: 12px; }
-            .form-row { flex-direction: row; gap: 15px; margin-bottom: 15px; } .form-group { flex: 1; }
+            .form-row { flex-direction: row; gap: 15px; margin-bottom: 15px; } 
+            .form-group { flex: 1; }
             .schedule-list-section h2 { font-size: 20px; margin-bottom: 15px; }
             .schedule-card { padding: 15px; padding-right: 80px; }
         }
@@ -141,17 +406,32 @@
             <div class="form-body">
                 <form id="setupForm">
                     <div class="form-row">
-                        <div class="form-group"><label>여행 이름</label><input type="text" id="setupTitle" placeholder="예: 호주 브리즈번 가족 여행" required></div>
+                        <div class="form-group">
+                            <label>여행 이름</label>
+                            <input type="text" id="setupTitle" placeholder="예: 호주 브리즈번 가족 여행" required>
+                        </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>시작일</label><input type="date" id="setupStartDate" required></div>
-                        <div class="form-group"><label>종료일</label><input type="date" id="setupEndDate" required></div>
+                        <div class="form-group">
+                            <label>시작일</label>
+                            <input type="date" id="setupStartDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>종료일</label>
+                            <input type="date" id="setupEndDate" required>
+                        </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>참석자 명단 (쉼표 구분)</label><input type="text" id="setupParticipants" required></div>
+                        <div class="form-group">
+                            <label>참석자 명단 (쉼표 구분)</label>
+                            <input type="text" id="setupParticipants" required>
+                        </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>작성 권한자 명단 (쉼표 구분)</label><input type="text" id="setupAuthors" required></div>
+                        <div class="form-group">
+                            <label>작성 권한자 명단 (쉼표 구분)</label>
+                            <input type="text" id="setupAuthors" required>
+                        </div>
                     </div>
                     <div style="display:flex; gap:10px; margin-top:10px;">
                         <button type="submit" id="setupSubmitBtn" class="submit-btn" style="flex:1;">저장 및 입장</button>
@@ -182,7 +462,6 @@
         <!-- 1. 비행 정보 -->
         <div id="flightTab">
             <div class="form-section">
-                <!-- 폼 토글 헤더 -->
                 <div class="form-header-toggle" onclick="toggleForm('flightFormBody', this)">
                     <h2><span id="flightFormTitleText"><i class="fa-solid fa-ticket"></i> 항공권 등록</span></h2>
                     <div style="display:flex; gap:10px; align-items:center;">
@@ -193,15 +472,40 @@
                 <div id="flightFormBody" class="form-body">
                     <form id="flightForm">
                         <div class="form-row">
-                            <div class="form-group"><label>구분</label><select id="flightType"><option>출발편</option><option>귀국편</option></select></div>
-                            <div class="form-group"><label>탑승 날짜</label><input type="date" id="flightDate" required></div>
+                            <div class="form-group">
+                                <label>구분</label>
+                                <select id="flightType">
+                                    <option>출발편</option>
+                                    <option>귀국편</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>탑승 날짜</label>
+                                <input type="date" id="flightDate" required>
+                            </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group"><label>항공사 및 편명</label><input type="text" id="airline" required></div>
-                            <div class="form-group"><label>시간</label><input type="text" id="flightTime"></div>
+                            <div class="form-group">
+                                <label>항공사 및 편명</label>
+                                <input type="text" id="airline" required>
+                            </div>
+                            <div class="form-group">
+                                <label>시간</label>
+                                <input type="text" id="flightTime">
+                            </div>
                         </div>
-                        <div class="form-row"><div class="form-group"><label>노선</label><input type="text" id="flightRoute" required></div></div>
-                        <div class="form-row"><div class="form-group"><label>비고</label><textarea id="flightNote" rows="1"></textarea></div></div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>노선</label>
+                                <input type="text" id="flightRoute" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>비고</label>
+                                <textarea id="flightNote" rows="1"></textarea>
+                            </div>
+                        </div>
                         <button type="button" id="submitFlightBtn" class="submit-btn"><i class="fa-solid fa-cloud-arrow-up"></i> 저장하기</button>
                     </form>
                 </div>
@@ -222,18 +526,41 @@
                 <div id="accFormBody" class="form-body">
                     <form id="accForm">
                         <div class="form-row">
-                            <div class="form-group"><label>체크인</label><input type="date" id="accCheckIn" required></div>
-                            <div class="form-group"><label>체크아웃</label><input type="date" id="accCheckOut" required></div>
+                            <div class="form-group">
+                                <label>체크인</label>
+                                <input type="date" id="accCheckIn" required>
+                            </div>
+                            <div class="form-group">
+                                <label>체크아웃</label>
+                                <input type="date" id="accCheckOut" required>
+                            </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group"><label>숙소 명</label><input type="text" id="accName" required></div>
-                            <div class="form-group"><label>총 가격 (원)</label><input type="number" id="accPrice" required></div>
+                            <div class="form-group">
+                                <label>숙소 명</label>
+                                <input type="text" id="accName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>총 가격 (원)</label>
+                                <input type="number" id="accPrice" required>
+                            </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group"><label>위치/주소</label><input type="text" id="accLocation"></div>
-                            <div class="form-group"><label>정보 URL</label><input type="url" id="accUrl"></div>
+                            <div class="form-group">
+                                <label>위치/주소</label>
+                                <input type="text" id="accLocation">
+                            </div>
+                            <div class="form-group">
+                                <label>정보 URL</label>
+                                <input type="url" id="accUrl">
+                            </div>
                         </div>
-                        <div class="form-row"><div class="form-group"><label>비고</label><textarea id="accNote" rows="1"></textarea></div></div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>비고</label>
+                                <textarea id="accNote" rows="1"></textarea>
+                            </div>
+                        </div>
                         <button type="button" id="submitAccBtn" class="submit-btn"><i class="fa-solid fa-cloud-arrow-up"></i> 저장하기</button>
                     </form>
                 </div>
@@ -254,18 +581,49 @@
                 <div id="plannerFormBody" class="form-body">
                     <form id="scheduleForm">
                         <div class="form-row">
-                            <div class="form-group"><label>날짜</label><select id="date"></select></div>
-                            <div class="form-group"><label>시간</label><input type="time" id="time" value="10:00" required></div>
-                            <div class="form-group"><label>카테고리</label><select id="category"><option value="tour">관광지</option><option value="food">식사</option><option value="transport">이동수단</option><option value="etc">기타</option></select></div>
+                            <div class="form-group">
+                                <label>날짜</label>
+                                <select id="date"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>시간</label>
+                                <input type="time" id="time" value="10:00" required>
+                            </div>
+                            <div class="form-group">
+                                <label>카테고리</label>
+                                <select id="category">
+                                    <option value="tour">관광지</option>
+                                    <option value="food">식사</option>
+                                    <option value="transport">이동수단</option>
+                                    <option value="etc">기타</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group"><label>일정 명</label><input type="text" id="scheduleName" required></div>
-                            <div class="form-group"><label>위치</label><input type="text" id="location"></div>
+                            <div class="form-group">
+                                <label>일정 명</label>
+                                <input type="text" id="scheduleName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>위치</label>
+                                <input type="text" id="location">
+                            </div>
                         </div>
-                        <div class="form-row"><div class="form-group"><label>상세 내용</label><input type="text" id="title"></div></div>
                         <div class="form-row">
-                            <div class="form-group"><label>비용 (원)</label><input type="number" id="cost" min="0"></div>
-                            <div class="form-group"><label>작성자</label><select id="addedBy"></select></div>
+                            <div class="form-group">
+                                <label>상세 내용</label>
+                                <input type="text" id="title">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>비용 (원)</label>
+                                <input type="number" id="cost" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>작성자</label>
+                                <select id="addedBy"></select>
+                            </div>
                         </div>
                         <button type="button" id="submitScheduleBtn" class="submit-btn"><i class="fa-solid fa-cloud-arrow-up"></i> 등록하기</button>
                     </form>
@@ -294,11 +652,27 @@
                 <div id="ideaFormBody" class="form-body">
                     <form id="ideaForm">
                         <div class="form-row">
-                            <div class="form-group"><label>제안 장소/일정 명</label><input type="text" id="ideaName" required></div>
-                            <div class="form-group"><label>위치</label><input type="text" id="ideaLocation"></div>
+                            <div class="form-group">
+                                <label>제안 장소/일정 명</label>
+                                <input type="text" id="ideaName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>위치</label>
+                                <input type="text" id="ideaLocation">
+                            </div>
                         </div>
-                        <div class="form-row"><div class="form-group"><label>제안 이유 및 세부내용</label><textarea id="ideaDesc" rows="2"></textarea></div></div>
-                        <div class="form-row"><div class="form-group"><label>제안자</label><select id="ideaAddedBy"></select></div></div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>제안 이유 및 세부내용</label>
+                                <textarea id="ideaDesc" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>제안자</label>
+                                <select id="ideaAddedBy"></select>
+                            </div>
+                        </div>
                         <button type="button" id="submitIdeaBtn" class="submit-btn"><i class="fa-solid fa-cloud-arrow-up"></i> 의견 등록하기</button>
                     </form>
                 </div>
@@ -343,15 +717,19 @@
   window.toggleForm = function(bodyId, headerElem) {
       const body = document.getElementById(bodyId);
       const icon = headerElem.querySelector('.toggle-icon');
+      
       body.classList.toggle('collapsed');
-      if(body.classList.contains('collapsed')){
+      
+      if(body.classList.contains('collapsed')) {
           icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
       } else {
           icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
       }
   };
 
-  // 기존 설정 함수들
+  // -----------------------------------------
+  // 여행 기본 설정 기능
+  // -----------------------------------------
   window.resetWholeApp = async function() {
       if(confirm("초기화 하시겠습니까?")) {
           await deleteDoc(doc(db, "settings", "tripInfo"));
@@ -365,8 +743,10 @@
       document.getElementById('setupEndDate').value = currentTripInfo.endDate;
       document.getElementById('setupParticipants').value = currentTripInfo.participants;
       document.getElementById('setupAuthors').value = currentTripInfo.authors;
+      
       document.getElementById('setupSubmitBtn').innerHTML = '설정 수정 완료';
       document.getElementById('setupCancelBtn').classList.remove('hidden');
+      
       document.getElementById('appScreen').classList.add('hidden');
       document.getElementById('topNavBtns').classList.add('hidden');
       document.getElementById('setupScreen').classList.remove('hidden');
@@ -375,6 +755,7 @@
   window.cancelTripInfoEdit = function() {
       document.getElementById('setupForm').reset();
       document.getElementById('setupCancelBtn').classList.add('hidden');
+      
       document.getElementById('setupScreen').classList.add('hidden');
       document.getElementById('appScreen').classList.remove('hidden');
       document.getElementById('topNavBtns').classList.remove('hidden');
@@ -406,11 +787,18 @@
   });
 
   function getDatesArray(start, end) {
-      const arr = []; let dt = new Date(start); const endDt = new Date(end);
+      const arr = []; 
+      let dt = new Date(start); 
+      const endDt = new Date(end);
+      
       while (dt <= endDt) {
-          arr.push(`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`);
+          const yyyy = dt.getFullYear();
+          const mm = String(dt.getMonth()+1).padStart(2,'0');
+          const dd = String(dt.getDate()).padStart(2,'0');
+          arr.push(`${yyyy}-${mm}-${dd}`);
           dt.setDate(dt.getDate() + 1);
-      } return arr;
+      } 
+      return arr;
   }
 
   function applyTripInfo(info) {
@@ -419,8 +807,9 @@
       document.getElementById('displayDates').innerText = `${info.startDate.substring(5)} ~ ${info.endDate.substring(5)}`;
 
       const authors = info.authors.split(',').map(s=>s.trim()).filter(s=>s);
-      document.getElementById('addedBy').innerHTML = authors.map(a => `<option value="${a}">${a}</option>`).join('');
-      document.getElementById('ideaAddedBy').innerHTML = authors.map(a => `<option value="${a}">${a}</option>`).join('');
+      const optionsHtml = authors.map(a => `<option value="${a}">${a}</option>`).join('');
+      document.getElementById('addedBy').innerHTML = optionsHtml;
+      document.getElementById('ideaAddedBy').innerHTML = optionsHtml;
 
       const dt = document.getElementById('dateTabsContainer');
       dt.innerHTML = '<button class="date-btn active" data-date="all" onclick="filterByDate(\'all\')">전체 일정</button>';
@@ -436,7 +825,10 @@
   window.switchTab = function(targetId) {
       document.querySelectorAll('.main-tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelector(`.main-tab-btn[data-target="${targetId}"]`).classList.add('active');
-      ['plannerTab','flightTab','accTab','ideaTab'].forEach(id => document.getElementById(id).classList.add('hidden'));
+      
+      ['plannerTab','flightTab','accTab','ideaTab'].forEach(id => {
+          document.getElementById(id).classList.add('hidden');
+      });
       document.getElementById(targetId).classList.remove('hidden');
   };
 
@@ -449,165 +841,416 @@
   };
 
   window.deleteItem = async function(col, id) {
-      if(confirm('삭제하시겠습니까?')) await deleteDoc(doc(db, col, id));
+      if(confirm('삭제하시겠습니까?')) {
+          await deleteDoc(doc(db, col, id));
+      }
   };
 
 
-  /* ================= 비행 정보 ================= */
+  // -----------------------------------------
+  // 비행 정보 기능
+  // -----------------------------------------
   onSnapshot(query(collection(db, "flights"), orderBy("flightDate")), (snap) => {
-      let html = ""; allFlights = [];
+      let html = ""; 
+      allFlights = [];
+      
       snap.forEach(d => {
-          const data = d.data(); allFlights.push({ id: d.id, ...data });
+          const data = d.data(); 
+          allFlights.push({ id: d.id, ...data });
           const bc = data.flightType === '출발편' ? '#3498db' : '#e67e22';
-          html += `<div class="schedule-card" style="border-left-color:${bc};"><div class="action-btns"><button onclick="editFlight('${d.id}')"><i class="fa-solid fa-pen"></i></button><button onclick="deleteItem('flights', '${d.id}')"><i class="fa-solid fa-trash"></i></button></div><div class="content-box"><div class="card-top-row"><span class="category-badge" style="background:${bc};color:white;">${data.flightType}</span><span class="schedule-title-text">${data.airline}</span></div><div class="flight-time-info"><i class="fa-regular fa-clock"></i> ${data.flightTime||''} (${data.flightDate})</div><div class="card-location-text"><i class="fa-solid fa-plane"></i>노선: ${data.flightRoute}</div>${data.flightNote ? `<div class="flight-note-text">${data.flightNote}</div>`:''}</div></div>`;
+          
+          html += `
+          <div class="schedule-card" style="border-left-color:${bc};">
+              <div class="action-btns">
+                  <button onclick="editFlight('${d.id}')"><i class="fa-solid fa-pen"></i></button>
+                  <button onclick="deleteItem('flights', '${d.id}')"><i class="fa-solid fa-trash"></i></button>
+              </div>
+              <div class="content-box">
+                  <div class="card-top-row">
+                      <span class="category-badge" style="background:${bc};color:white;">${data.flightType}</span>
+                      <span class="schedule-title-text">${data.airline}</span>
+                  </div>
+                  <div class="flight-time-info"><i class="fa-regular fa-clock"></i> ${data.flightTime||''} (${data.flightDate})</div>
+                  <div class="card-location-text"><i class="fa-solid fa-plane"></i>노선: ${data.flightRoute}</div>
+                  ${data.flightNote ? `<div class="flight-note-text">${data.flightNote}</div>` : ''}
+              </div>
+          </div>`;
       });
       document.getElementById('flightContainer').innerHTML = html || '<div class="empty-state">데이터가 없습니다.</div>';
   });
 
   document.getElementById('submitFlightBtn').addEventListener('click', async () => {
-      const p = { flightType: document.getElementById('flightType').value, flightDate: document.getElementById('flightDate').value, airline: document.getElementById('airline').value, flightTime: document.getElementById('flightTime').value, flightRoute: document.getElementById('flightRoute').value, flightNote: document.getElementById('flightNote').value };
+      const p = { 
+          flightType: document.getElementById('flightType').value, 
+          flightDate: document.getElementById('flightDate').value, 
+          airline: document.getElementById('airline').value, 
+          flightTime: document.getElementById('flightTime').value, 
+          flightRoute: document.getElementById('flightRoute').value, 
+          flightNote: document.getElementById('flightNote').value 
+      };
+      
       if(!p.flightDate || !p.airline) return;
-      if(editingFlightId) await updateDoc(doc(db, "flights", editingFlightId), p); else await addDoc(collection(db, "flights"), p);
+      
+      if(editingFlightId) {
+          await updateDoc(doc(db, "flights", editingFlightId), p);
+      } else {
+          await addDoc(collection(db, "flights"), p);
+      }
       cancelFlightEdit();
   });
+  
   window.editFlight = function(id) {
-      const item = allFlights.find(f => f.id === id); if(!item) return;
+      const item = allFlights.find(f => f.id === id); 
+      if(!item) return;
+      
       editingFlightId = id;
-      document.getElementById('flightType').value = item.flightType; document.getElementById('flightDate').value = item.flightDate; document.getElementById('airline').value = item.airline; document.getElementById('flightTime').value = item.flightTime; document.getElementById('flightRoute').value = item.flightRoute; document.getElementById('flightNote').value = item.flightNote;
-      document.getElementById('submitFlightBtn').classList.add('btn-update'); document.getElementById('cancelFlightEditBtn').style.display = 'block';
-      const body = document.getElementById('flightFormBody'); if(body.classList.contains('collapsed')) toggleForm('flightFormBody', body.previousElementSibling);
+      document.getElementById('flightType').value = item.flightType; 
+      document.getElementById('flightDate').value = item.flightDate; 
+      document.getElementById('airline').value = item.airline; 
+      document.getElementById('flightTime').value = item.flightTime; 
+      document.getElementById('flightRoute').value = item.flightRoute; 
+      document.getElementById('flightNote').value = item.flightNote;
+      
+      document.getElementById('submitFlightBtn').classList.add('btn-update'); 
+      document.getElementById('cancelFlightEditBtn').style.display = 'block';
+      
+      const body = document.getElementById('flightFormBody'); 
+      if(body.classList.contains('collapsed')) {
+          toggleForm('flightFormBody', body.previousElementSibling);
+      }
   };
+  
   window.cancelFlightEdit = function(e) {
-      if(e) e.stopPropagation(); editingFlightId = null; document.getElementById('flightForm').reset();
-      document.getElementById('submitFlightBtn').classList.remove('btn-update'); document.getElementById('cancelFlightEditBtn').style.display = 'none';
+      if(e) e.stopPropagation(); 
+      editingFlightId = null; 
+      document.getElementById('flightForm').reset();
+      document.getElementById('submitFlightBtn').classList.remove('btn-update'); 
+      document.getElementById('cancelFlightEditBtn').style.display = 'none';
   };
 
-  /* ================= 숙소 정보 ================= */
+  // -----------------------------------------
+  // 숙소 정보 기능
+  // -----------------------------------------
   onSnapshot(query(collection(db, "accommodations"), orderBy("checkIn")), (snap) => {
-      let html = ""; allAccs = [];
+      let html = ""; 
+      allAccs = [];
+      
       snap.forEach(d => {
-          const data = d.data(); allAccs.push({ id: d.id, ...data });
-          html += `<div class="schedule-card" style="border-left-color:#8e44ad;"><div class="action-btns"><button onclick="editAcc('${d.id}')"><i class="fa-solid fa-pen"></i></button><button onclick="deleteItem('accommodations', '${d.id}')"><i class="fa-solid fa-trash"></i></button></div><div class="content-box"><div class="card-top-row"><span class="category-badge" style="background:#ebdef0;color:#8e44ad;"><i class="fa-solid fa-bed"></i>숙소</span><span class="schedule-title-text">${data.name}</span></div><div class="flight-time-info">${data.checkIn} ~ ${data.checkOut}</div><div class="card-location-text"><i class="fa-solid fa-location-dot"></i>${data.location}</div><div class="cost">${data.price.toLocaleString()} 원</div>${data.url ? `<div class="acc-url"><a href="${data.url}" target="_blank">${data.url}</a></div>`:''}${data.note ? `<div class="flight-note-text">${data.note}</div>`:''}</div></div>`;
+          const data = d.data(); 
+          allAccs.push({ id: d.id, ...data });
+          
+          html += `
+          <div class="schedule-card" style="border-left-color:#8e44ad;">
+              <div class="action-btns">
+                  <button onclick="editAcc('${d.id}')"><i class="fa-solid fa-pen"></i></button>
+                  <button onclick="deleteItem('accommodations', '${d.id}')"><i class="fa-solid fa-trash"></i></button>
+              </div>
+              <div class="content-box">
+                  <div class="card-top-row">
+                      <span class="category-badge" style="background:#ebdef0;color:#8e44ad;"><i class="fa-solid fa-bed"></i>숙소</span>
+                      <span class="schedule-title-text">${data.name}</span>
+                  </div>
+                  <div class="flight-time-info">${data.checkIn} ~ ${data.checkOut}</div>
+                  <div class="card-location-text"><i class="fa-solid fa-location-dot"></i>${data.location}</div>
+                  <div class="cost">${data.price.toLocaleString()} 원</div>
+                  ${data.url ? `<div class="acc-url"><a href="${data.url}" target="_blank">${data.url}</a></div>`:''}
+                  ${data.note ? `<div class="flight-note-text">${data.note}</div>`:''}
+              </div>
+          </div>`;
       });
       document.getElementById('accContainer').innerHTML = html || '<div class="empty-state">데이터가 없습니다.</div>';
   });
 
   document.getElementById('submitAccBtn').addEventListener('click', async () => {
-      const p = { checkIn: document.getElementById('accCheckIn').value, checkOut: document.getElementById('accCheckOut').value, name: document.getElementById('accName').value, price: Number(document.getElementById('accPrice').value)||0, location: document.getElementById('accLocation').value, url: document.getElementById('accUrl').value, note: document.getElementById('accNote').value };
+      const p = { 
+          checkIn: document.getElementById('accCheckIn').value, 
+          checkOut: document.getElementById('accCheckOut').value, 
+          name: document.getElementById('accName').value, 
+          price: Number(document.getElementById('accPrice').value)||0, 
+          location: document.getElementById('accLocation').value, 
+          url: document.getElementById('accUrl').value, 
+          note: document.getElementById('accNote').value 
+      };
       if(!p.name) return;
-      if(editingAccId) await updateDoc(doc(db, "accommodations", editingAccId), p); else await addDoc(collection(db, "accommodations"), p);
+      
+      if(editingAccId) {
+          await updateDoc(doc(db, "accommodations", editingAccId), p); 
+      } else {
+          await addDoc(collection(db, "accommodations"), p);
+      }
       cancelAccEdit();
   });
+  
   window.editAcc = function(id) {
-      const item = allAccs.find(a => a.id === id); if(!item) return;
+      const item = allAccs.find(a => a.id === id); 
+      if(!item) return;
+      
       editingAccId = id;
-      document.getElementById('accCheckIn').value = item.checkIn; document.getElementById('accCheckOut').value = item.checkOut; document.getElementById('accName').value = item.name; document.getElementById('accPrice').value = item.price; document.getElementById('accLocation').value = item.location; document.getElementById('accUrl').value = item.url; document.getElementById('accNote').value = item.note;
-      document.getElementById('submitAccBtn').classList.add('btn-update'); document.getElementById('cancelAccEditBtn').style.display = 'block';
-      const body = document.getElementById('accFormBody'); if(body.classList.contains('collapsed')) toggleForm('accFormBody', body.previousElementSibling);
+      document.getElementById('accCheckIn').value = item.checkIn; 
+      document.getElementById('accCheckOut').value = item.checkOut; 
+      document.getElementById('accName').value = item.name; 
+      document.getElementById('accPrice').value = item.price; 
+      document.getElementById('accLocation').value = item.location; 
+      document.getElementById('accUrl').value = item.url; 
+      document.getElementById('accNote').value = item.note;
+      
+      document.getElementById('submitAccBtn').classList.add('btn-update'); 
+      document.getElementById('cancelAccEditBtn').style.display = 'block';
+      
+      const body = document.getElementById('accFormBody'); 
+      if(body.classList.contains('collapsed')) {
+          toggleForm('accFormBody', body.previousElementSibling);
+      }
   };
+  
   window.cancelAccEdit = function(e) {
-      if(e) e.stopPropagation(); editingAccId = null; document.getElementById('accForm').reset();
-      document.getElementById('submitAccBtn').classList.remove('btn-update'); document.getElementById('cancelAccEditBtn').style.display = 'none';
+      if(e) e.stopPropagation(); 
+      editingAccId = null; 
+      document.getElementById('accForm').reset();
+      document.getElementById('submitAccBtn').classList.remove('btn-update'); 
+      document.getElementById('cancelAccEditBtn').style.display = 'none';
   };
 
-  /* ================= 일정 정보 ================= */
+  // -----------------------------------------
+  // 일정 플래너 기능
+  // -----------------------------------------
   onSnapshot(query(collection(db, "schedules")), (snapshot) => {
-      allSchedules = []; snapshot.forEach(d => allSchedules.push({ id: d.id, ...d.data() })); renderSchedules();
+      allSchedules = []; 
+      snapshot.forEach(d => allSchedules.push({ id: d.id, ...d.data() })); 
+      renderSchedules();
   });
 
   function renderSchedules() {
       let html = "", totalAmount = 0;
       const f = currentFilterDate === 'all' ? allSchedules : allSchedules.filter(s => s.date === currentFilterDate);
-      f.sort((a, b) => { if(a.date !== b.date) return a.date.localeCompare(b.date); if(a.time !== b.time) return a.time.localeCompare(b.time); return (a.orderValue||0) - (b.orderValue||0); });
+      
+      f.sort((a, b) => { 
+          if(a.date !== b.date) return a.date.localeCompare(b.date); 
+          if(a.time !== b.time) return a.time.localeCompare(b.time); 
+          return (a.orderValue||0) - (b.orderValue||0); 
+      });
 
       f.forEach(d => {
-          totalAmount += Number(d.cost)||0; const style = categoryStyles[d.category] || categoryStyles['etc'];
-          html += `<div class="schedule-card ${style.class}" draggable="true" data-id="${d.id}"><div class="action-btns"><button onclick="editSchedule('${d.id}')"><i class="fa-solid fa-pen"></i></button><button onclick="deleteItem('schedules', '${d.id}')"><i class="fa-solid fa-trash"></i></button></div><div class="time-box"><div style="font-size:11px;">${d.date.substring(5).replace('-','/')}</div><div class="time">${d.time}</div></div><div class="content-box"><div class="card-top-row"><span class="schedule-title-text">${d.scheduleName}</span><span class="card-location-text"><i class="fa-solid fa-location-dot"></i>${d.location}</span></div><div class="card-desc-text">${d.title}</div><div class="card-bottom-row"><span class="category-badge" style="background:${style.bg};color:${style.color};">${style.icon} ${style.text}</span><span class="added-by"><i class="fa-solid fa-user-pen"></i> ${d.addedBy}</span><span class="cost">${(Number(d.cost)||0).toLocaleString()} 원</span></div></div></div>`;
+          totalAmount += Number(d.cost)||0; 
+          const style = categoryStyles[d.category] || categoryStyles['etc'];
+          
+          html += `
+          <div class="schedule-card ${style.class}" draggable="true" data-id="${d.id}">
+              <div class="action-btns">
+                  <button onclick="editSchedule('${d.id}')"><i class="fa-solid fa-pen"></i></button>
+                  <button onclick="deleteItem('schedules', '${d.id}')"><i class="fa-solid fa-trash"></i></button>
+              </div>
+              <div class="time-box">
+                  <div style="font-size:11px;">${d.date.substring(5).replace('-','/')}</div>
+                  <div class="time">${d.time}</div>
+              </div>
+              <div class="content-box">
+                  <div class="card-top-row">
+                      <span class="schedule-title-text">${d.scheduleName}</span>
+                      <span class="card-location-text"><i class="fa-solid fa-location-dot"></i>${d.location}</span>
+                  </div>
+                  <div class="card-desc-text">${d.title}</div>
+                  <div class="card-bottom-row">
+                      <span class="category-badge" style="background:${style.bg};color:${style.color};">${style.icon} ${style.text}</span>
+                      <span class="added-by"><i class="fa-solid fa-user-pen"></i> ${d.addedBy}</span>
+                      <span class="cost">${(Number(d.cost)||0).toLocaleString()} 원</span>
+                  </div>
+              </div>
+          </div>`;
       });
       document.getElementById('scheduleContainer').innerHTML = html || '<div class="empty-state">데이터가 없습니다.</div>';
       document.getElementById('totalCost').innerText = `총액: ${totalAmount.toLocaleString()} 원`;
   }
 
   document.getElementById('submitScheduleBtn').addEventListener('click', async () => {
-      const p = { date: document.getElementById('date').value, time: document.getElementById('time').value, category: document.getElementById('category').value, scheduleName: document.getElementById('scheduleName').value, location: document.getElementById('location').value, title: document.getElementById('title').value, cost: Number(document.getElementById('cost').value)||0, addedBy: document.getElementById('addedBy').value };
+      const p = { 
+          date: document.getElementById('date').value, 
+          time: document.getElementById('time').value, 
+          category: document.getElementById('category').value, 
+          scheduleName: document.getElementById('scheduleName').value, 
+          location: document.getElementById('location').value, 
+          title: document.getElementById('title').value, 
+          cost: Number(document.getElementById('cost').value)||0, 
+          addedBy: document.getElementById('addedBy').value 
+      };
+      
       if(!p.scheduleName) return;
       if(!editingScheduleId) p.orderValue = parseInt(p.time.replace(':',''))*100;
-      if(editingScheduleId) await updateDoc(doc(db, "schedules", editingScheduleId), p); else await addDoc(collection(db, "schedules"), p);
+      
+      if(editingScheduleId) {
+          await updateDoc(doc(db, "schedules", editingScheduleId), p); 
+      } else {
+          await addDoc(collection(db, "schedules"), p);
+      }
       cancelEdit();
   });
+  
   window.editSchedule = function(id) {
-      const item = allSchedules.find(s => s.id === id); if(!item) return;
+      const item = allSchedules.find(s => s.id === id); 
+      if(!item) return;
+      
       editingScheduleId = id;
-      document.getElementById('date').value = item.date; document.getElementById('time').value = item.time; document.getElementById('category').value = item.category; document.getElementById('scheduleName').value = item.scheduleName; document.getElementById('location').value = item.location; document.getElementById('title').value = item.title; document.getElementById('cost').value = item.cost; document.getElementById('addedBy').value = item.addedBy;
-      document.getElementById('submitScheduleBtn').classList.add('btn-update'); document.getElementById('cancelEditBtn').style.display = 'block';
-      const body = document.getElementById('plannerFormBody'); if(body.classList.contains('collapsed')) toggleForm('plannerFormBody', body.previousElementSibling);
+      document.getElementById('date').value = item.date; 
+      document.getElementById('time').value = item.time; 
+      document.getElementById('category').value = item.category; 
+      document.getElementById('scheduleName').value = item.scheduleName; 
+      document.getElementById('location').value = item.location; 
+      document.getElementById('title').value = item.title; 
+      document.getElementById('cost').value = item.cost; 
+      document.getElementById('addedBy').value = item.addedBy;
+      
+      document.getElementById('submitScheduleBtn').classList.add('btn-update'); 
+      document.getElementById('cancelEditBtn').style.display = 'block';
+      
+      const body = document.getElementById('plannerFormBody'); 
+      if(body.classList.contains('collapsed')) {
+          toggleForm('plannerFormBody', body.previousElementSibling);
+      }
   };
+  
   window.cancelEdit = function(e) {
-      if(e) e.stopPropagation(); editingScheduleId = null; document.getElementById('scheduleForm').reset();
-      document.getElementById('submitScheduleBtn').classList.remove('btn-update'); document.getElementById('cancelEditBtn').style.display = 'none';
+      if(e) e.stopPropagation(); 
+      editingScheduleId = null; 
+      document.getElementById('scheduleForm').reset();
+      document.getElementById('submitScheduleBtn').classList.remove('btn-update'); 
+      document.getElementById('cancelEditBtn').style.display = 'none';
   };
 
   /* 일정 정렬 드래그 앤 드롭 */
-  const sc = document.getElementById('scheduleContainer'); let dragged = null;
-  sc.addEventListener('dragstart', e => { dragged = e.target.closest('.schedule-card'); if(dragged) dragged.classList.add('dragging'); });
-  sc.addEventListener('dragend', () => { if(dragged) dragged.classList.remove('dragging'); dragged = null; document.querySelectorAll('.schedule-card').forEach(c => c.classList.remove('drag-over', 'drag-over-bottom')); });
-  sc.addEventListener('dragover', e => { e.preventDefault(); const card = e.target.closest('.schedule-card'); if(!card || card===dragged) return; const mY = card.getBoundingClientRect().top + card.getBoundingClientRect().height/2; card.classList.toggle('drag-over', e.clientY<mY); card.classList.toggle('drag-over-bottom', e.clientY>=mY); });
+  const sc = document.getElementById('scheduleContainer'); 
+  let dragged = null;
+  sc.addEventListener('dragstart', e => { 
+      dragged = e.target.closest('.schedule-card'); 
+      if(dragged) dragged.classList.add('dragging'); 
+  });
+  sc.addEventListener('dragend', () => { 
+      if(dragged) dragged.classList.remove('dragging'); 
+      dragged = null; 
+      document.querySelectorAll('.schedule-card').forEach(c => c.classList.remove('drag-over', 'drag-over-bottom')); 
+  });
+  sc.addEventListener('dragover', e => { 
+      e.preventDefault(); 
+      const card = e.target.closest('.schedule-card'); 
+      if(!card || card===dragged) return; 
+      const mY = card.getBoundingClientRect().top + card.getBoundingClientRect().height/2; 
+      card.classList.toggle('drag-over', e.clientY<mY); 
+      card.classList.toggle('drag-over-bottom', e.clientY>=mY); 
+  });
   sc.addEventListener('drop', async e => {
-      e.preventDefault(); const target = e.target.closest('.schedule-card'); if(!target || target===dragged) return;
+      e.preventDefault(); 
+      const target = e.target.closest('.schedule-card'); 
+      if(!target || target===dragged) return;
+      
       const list = [...allSchedules].filter(s => currentFilterDate === 'all' ? true : s.date === currentFilterDate).sort((a,b)=> (a.orderValue||0)-(b.orderValue||0));
       const tIdx = list.findIndex(s => s.id === target.dataset.id);
       const above = e.clientY < (target.getBoundingClientRect().top + target.getBoundingClientRect().height/2);
+      
       let p = above ? list[tIdx-1] : target, n = above ? target : list[tIdx+1];
-      if(p && p.id === dragged.dataset.id) p = list[tIdx-2]; if(n && n.id === dragged.dataset.id) n = list[tIdx+2];
+      if(p && p.id === dragged.dataset.id) p = list[tIdx-2]; 
+      if(n && n.id === dragged.dataset.id) n = list[tIdx+2];
+      
       let nv = p && n ? (p.orderValue + n.orderValue)/2 : (p ? p.orderValue + 100 : (n ? n.orderValue - 100 : 0));
       await updateDoc(doc(db, "schedules", dragged.dataset.id), { orderValue: nv, date: target.dataset.date || list[tIdx].date });
   });
 
-  /* ================= 일정 의견(아이디어) 정보 ================= */
+  // -----------------------------------------
+  // 의견(후보지 제안) 기능
+  // -----------------------------------------
   onSnapshot(query(collection(db, "ideas")), (snap) => {
-      let html = ""; allIdeas = [];
+      let html = ""; 
+      allIdeas = [];
+      
       snap.forEach(d => {
-          const data = d.data(); allIdeas.push({ id: d.id, ...data });
-          html += `<div class="schedule-card cat-idea"><div class="action-btns"><button onclick="editIdea('${d.id}')"><i class="fa-solid fa-pen"></i></button><button onclick="deleteItem('ideas', '${d.id}')"><i class="fa-solid fa-trash"></i></button></div><div class="content-box"><div class="card-top-row"><span class="schedule-title-text">${data.name}</span><span class="card-location-text"><i class="fa-solid fa-location-dot"></i>${data.location}</span></div><div class="card-desc-text">${data.desc}</div><div class="card-bottom-row" style="margin-top:12px;"><span class="added-by"><i class="fa-solid fa-user-pen"></i> ${data.addedBy} 제안</span><button class="adopt-btn" onclick="adoptIdea('${d.id}')"><i class="fa-solid fa-calendar-check"></i> 일정으로 채택</button></div></div></div>`;
+          const data = d.data(); 
+          allIdeas.push({ id: d.id, ...data });
+          html += `
+          <div class="schedule-card cat-idea">
+              <div class="action-btns">
+                  <button onclick="editIdea('${d.id}')"><i class="fa-solid fa-pen"></i></button>
+                  <button onclick="deleteItem('ideas', '${d.id}')"><i class="fa-solid fa-trash"></i></button>
+              </div>
+              <div class="content-box">
+                  <div class="card-top-row">
+                      <span class="schedule-title-text">${data.name}</span>
+                      <span class="card-location-text"><i class="fa-solid fa-location-dot"></i>${data.location}</span>
+                  </div>
+                  <div class="card-desc-text">${data.desc}</div>
+                  <div class="card-bottom-row" style="margin-top:12px;">
+                      <span class="added-by"><i class="fa-solid fa-user-pen"></i> ${data.addedBy} 제안</span>
+                      <button class="adopt-btn" onclick="adoptIdea('${d.id}')"><i class="fa-solid fa-calendar-check"></i> 일정으로 채택</button>
+                  </div>
+              </div>
+          </div>`;
       });
       document.getElementById('ideaContainer').innerHTML = html || '<div class="empty-state">등록된 제안이 없습니다.</div>';
   });
 
   document.getElementById('submitIdeaBtn').addEventListener('click', async () => {
-      const p = { name: document.getElementById('ideaName').value, location: document.getElementById('ideaLocation').value, desc: document.getElementById('ideaDesc').value, addedBy: document.getElementById('ideaAddedBy').value };
+      const p = { 
+          name: document.getElementById('ideaName').value, 
+          location: document.getElementById('ideaLocation').value, 
+          desc: document.getElementById('ideaDesc').value, 
+          addedBy: document.getElementById('ideaAddedBy').value 
+      };
+      
       if(!p.name) return;
-      if(editingIdeaId) await updateDoc(doc(db, "ideas", editingIdeaId), p); else await addDoc(collection(db, "ideas"), p);
+      if(editingIdeaId) {
+          await updateDoc(doc(db, "ideas", editingIdeaId), p); 
+      } else {
+          await addDoc(collection(db, "ideas"), p);
+      }
       cancelIdeaEdit();
   });
+  
   window.editIdea = function(id) {
-      const item = allIdeas.find(i => i.id === id); if(!item) return;
+      const item = allIdeas.find(i => i.id === id); 
+      if(!item) return;
+      
       editingIdeaId = id;
-      document.getElementById('ideaName').value = item.name; document.getElementById('ideaLocation').value = item.location; document.getElementById('ideaDesc').value = item.desc; document.getElementById('ideaAddedBy').value = item.addedBy;
-      document.getElementById('submitIdeaBtn').classList.add('btn-update'); document.getElementById('cancelIdeaEditBtn').style.display = 'block';
-      const body = document.getElementById('ideaFormBody'); if(body.classList.contains('collapsed')) toggleForm('ideaFormBody', body.previousElementSibling);
+      document.getElementById('ideaName').value = item.name; 
+      document.getElementById('ideaLocation').value = item.location; 
+      document.getElementById('ideaDesc').value = item.desc; 
+      document.getElementById('ideaAddedBy').value = item.addedBy;
+      
+      document.getElementById('submitIdeaBtn').classList.add('btn-update'); 
+      document.getElementById('cancelIdeaEditBtn').style.display = 'block';
+      
+      const body = document.getElementById('ideaFormBody'); 
+      if(body.classList.contains('collapsed')) {
+          toggleForm('ideaFormBody', body.previousElementSibling);
+      }
   };
+  
   window.cancelIdeaEdit = function(e) {
-      if(e) e.stopPropagation(); editingIdeaId = null; document.getElementById('ideaForm').reset();
-      document.getElementById('submitIdeaBtn').classList.remove('btn-update'); document.getElementById('cancelIdeaEditBtn').style.display = 'none';
+      if(e) e.stopPropagation(); 
+      editingIdeaId = null; 
+      document.getElementById('ideaForm').reset();
+      document.getElementById('submitIdeaBtn').classList.remove('btn-update'); 
+      document.getElementById('cancelIdeaEditBtn').style.display = 'none';
   };
 
-  /* 아이디어를 실제 플래너로 복사하기 */
+  /* 아이디어를 실제 플래너로 채택 복사 */
   window.adoptIdea = function(id) {
-      const idea = allIdeas.find(i => i.id === id); if(!idea) return;
-      if(!confirm("이 제안을 일정 추가 폼으로 가져가시겠습니까?")) return;
+      const idea = allIdeas.find(i => i.id === id); 
+      if(!idea) return;
+      if(!confirm("이 제안을 실제 '일정 추가' 폼으로 가져가시겠습니까?")) return;
       
       switchTab('plannerTab');
       const body = document.getElementById('plannerFormBody');
-      if (body.classList.contains('collapsed')) toggleForm('plannerFormBody', body.previousElementSibling);
+      if (body.classList.contains('collapsed')) {
+          toggleForm('plannerFormBody', body.previousElementSibling);
+      }
       
       document.getElementById('scheduleName').value = idea.name;
       document.getElementById('location').value = idea.location;
       document.getElementById('title').value = idea.desc;
       
       const addedBy = document.getElementById('addedBy');
-      if([...addedBy.options].some(o => o.value === idea.addedBy)) addedBy.value = idea.addedBy;
+      if([...addedBy.options].some(o => o.value === idea.addedBy)) {
+          addedBy.value = idea.addedBy;
+      }
       
-      alert("일정 탭으로 복사되었습니다. 날짜와 시간을 지정한 후 [등록하기]를 눌러주세요.");
+      alert("일정 탭으로 내용이 복사되었습니다. 날짜와 시간을 지정한 후 [등록하기] 버튼을 눌러주세요.");
       window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 </script>
